@@ -8,5 +8,7 @@ int main() {
     // Example:
     int result = add(1, 2);
     cout << "1 + 2 = " << result << endl;
+    result = multiply(3, 4);
+    cout << "3 * 4 = " << result << endl;
     return 0;
 }
