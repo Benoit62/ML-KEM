@@ -1,4 +1,4 @@
-#include "baseCaseMultiply.hpp"
+#include "../headers/baseCaseMultiply.hpp"
 
 
 // Fonction pour calculer le produit de deux polynômes de degré 1 modulo un polynôme quadratique
