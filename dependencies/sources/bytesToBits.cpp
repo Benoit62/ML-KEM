@@ -1,5 +1,4 @@
-#include <vector>
-using namespace std;
+#include "../headers/bytesToBits.hpp"
 
 vector<bool> bytesToBits(const vector<unsigned char>& B) {
     size_t l = B.size();

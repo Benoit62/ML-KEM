@@ -1,6 +1,3 @@
-#include <vector>
-#include <cmath>
-#include <cstdint>
 #include "../headers/bytesToBits.hpp"
 
 vector<uint64_t> byteDecode(const vector<unsigned char>& B, int d) {
