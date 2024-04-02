@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "ntt.hpp"
+#include "NTT1.hpp"
 
 int main() {
     const int q = 256; // Modulo q
