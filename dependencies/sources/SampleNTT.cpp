@@ -1,4 +1,5 @@
-#include "SampleNTT.hpp"
+#include <iostream>
+#include <vector>
 #include <cmath>
 
 std::vector<int> SampleNTT(const std::vector<unsigned char>& B) {
