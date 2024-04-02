@@ -1,10 +1,6 @@
 #include <iostream>
 #include <vector>
-
 #include <cstdint>
-#include <vector>
-
-#include <vector>
 
 std::vector<unsigned char> bitsToBytes(const std::vector<bool>& bits) {
     // Convertit un vecteur de bits en un vecteur d'octets
