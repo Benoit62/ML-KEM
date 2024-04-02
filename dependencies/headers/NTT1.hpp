@@ -4,6 +4,7 @@
 #define NTT_HPP
 
 #include <vector>
+#include "BitRev7.hpp"
 
 // Fonction pour calculer la NTT en place
 void computeNTT(std::vector<int>& f, int q) {
