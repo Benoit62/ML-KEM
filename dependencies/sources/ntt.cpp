@@ -1,24 +1,12 @@
-// main.cpp
+#ifndef NTT_HPP
+#define NTT_HPP
 
-#include <iostream>
-#include <vector>
-#include "ntt.hpp"
+#include "../sources/ntt.cpp"
 
-int main() {
-    const int q = 256; // Modulo q
+void computeNTT(std::vector<int>& f, int q);
 
-    // Exemple : coefficients du polynôme d'entrée f
-    std::vector<int> f = {1, 2, 3, 4, 5, 6, 7, 8};
+uint8_t BitRev7(uint8_t i);
 
-    // Calcul de la NTT
-    computeNTT(f, q);
+void testComputeNTT();
 
-    // Affichage des coefficients de f̂
-    std::cout << "Coefficients de f̂ : ";
-    for (int coeff : f) {
-        std::cout << coeff << " ";
-    }
-    std::cout << std::endl;
-
-    return 0;
-}
+#endif // NTT_HPP
