@@ -1,3 +1,6 @@
+#ifndef BYTEDECODE_HPP
+#define BYTEDECODE_HPP
+
 #include <vector>
 #include <cmath>
 #include <cstdint>
@@ -6,3 +9,5 @@
 using namespace std;
 
 vector<uint64_t> byteDecode(const vector<unsigned char>& B, int d);
+
+#endif

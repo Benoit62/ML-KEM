@@ -1,4 +1,5 @@
 #include <vector>
+
 using namespace std;
 
 vector<bool> bytesToBits(const vector<unsigned char>& B) {

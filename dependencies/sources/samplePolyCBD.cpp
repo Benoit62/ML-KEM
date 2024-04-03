@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<uint32_t> SamplePolyCBD_eta(const vector<unsigned char>& B, uint32_t eta, uint32_t q) {
+vector<uint32_t> SamplePolyCBD_eta(const vector<uint8_t>& B, int eta, int q) {
     vector<bool> b = bytesToBits(B);
     vector<uint32_t> f(256);
 
