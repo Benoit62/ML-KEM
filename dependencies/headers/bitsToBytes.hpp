@@ -2,7 +2,7 @@
 #define BITSTOBYTES_HPP
 #include "../sources/bitsToBytes.cpp"
 
-std::vector<unsigned char> bitsToBytes(const std::vector<bool>& bits);
+std::vector<u_int8_t> bitsToBytes(const std::vector<bool>& bits);
 void testBitsToBytes();
 
 #endif // BITSTOBYTES_HPP

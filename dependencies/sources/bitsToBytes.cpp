@@ -2,17 +2,17 @@
 #include <vector>
 #include <cstdint>
 
-std::vector<unsigned char> bitsToBytes(const std::vector<bool>& bits) {
+std::vector<u_int8_t> bitsToBytes(const std::vector<bool>& bits) {
     // Convertit un vecteur de bits en un vecteur d'octets
     // Attention : le nombre de bits doit être un multiple de 8 pour éviter les erreurs vu que le LSB est le premier bit du vecteur
     // Le LSB doit être le premier bit du vecteur (LSB = Least Significant Bit, bit de poids faible)
 
-    std::vector<unsigned char> bytes;
-    unsigned char byte = 0;
+    std::vector<u_int8_t> bytes;
+    u_int8_t byte = 0;
     int bitIndex = 0;
 
     for (bool bit : bits) {
-        byte |= static_cast<unsigned char>(bit) << bitIndex;
+        byte |= static_cast<u_int8_t>(bit) << bitIndex;
         bitIndex++;
 
         if (bitIndex == 8) {
@@ -42,7 +42,7 @@ void testBitsToBytes() {
         {0, 1, 0, 1, 0, 1, 0, 1, 1}                         // Cas avec un octet partiel
     };
 
-    std::vector<std::vector<unsigned char>> expectedResults = {
+    std::vector<std::vector<u_int8_t>> expectedResults = {
         {},
         {0},
         {1},
@@ -51,11 +51,11 @@ void testBitsToBytes() {
         {255},
         {170},
         {170, 170},
-        {170, 128}
+        {170, 1}
     };
 
     for (size_t i = 0; i < sizeof(testCases) / sizeof(testCases[0]); i++) {
-        std::vector<unsigned char> result = bitsToBytes(testCases[i]);
+        std::vector<u_int8_t> result = bitsToBytes(testCases[i]);
         if (result == expectedResults[i]) {
             std::cout << "Test case " << i << " passed." << std::endl;
         } else {
@@ -67,12 +67,12 @@ void testBitsToBytes() {
 
             std::cout << std::endl;
             std::cout << "Expected: ";
-            for (unsigned char byte : expectedResults[i]) { // boucle for pour chaque élément du tableau
+            for (u_int8_t byte : expectedResults[i]) { // boucle for pour chaque élément du tableau
                 std::cout << std::hex << static_cast<int>(byte) << " "; // Affiche les valeurs en hexadécimal
             }
             std::cout << std::endl;
             std::cout << "Result: ";
-            for (unsigned char byte : result) { // boucle for pour chaque élément du tableau
+            for (u_int8_t byte : result) { // boucle for pour chaque élément du tableau
                 std::cout << std::hex << static_cast<int>(byte) << " "; // Affiche les valeurs en hexadécimal
             }
             std::cout << std::endl;
