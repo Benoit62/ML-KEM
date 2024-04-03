@@ -1,6 +1,10 @@
-#include "../headers/NTT_inv.hpp"
+#include <vector>
+#include <cstdint>
+#include <iostream>
+
 #include "../headers/BitRev7.hpp"
 
+constexpr uint32_t q = 65537; // Modulus
 constexpr uint32_t zetas[128] = { /* Table des racines de l'unité modulo q */ };
 
 std::vector<uint8_t> ntt_inv(const std::vector<uint8_t>& f_hat) {
@@ -25,4 +29,44 @@ std::vector<uint8_t> ntt_inv(const std::vector<uint8_t>& f_hat) {
     }
 
     return f;
+}
+
+void testNttInv() {
+    std::vector<std::vector<uint32_t>> testCases = {
+        {0},                                   // Cas trivial
+        {1, 2, 3, 4},                          // Cas avec quelques coefficients
+        {255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} // Cas avec un seul coefficient non nul
+    };
+
+    std::vector<std::vector<uint32_t>> expectedResults = {
+        {0},
+        {1, 65536, 65535, 65534},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    for (size_t i = 0; i < testCases.size(); i++) {
+        std::vector<uint8_t> f_hat(testCases[i].begin(), testCases[i].end());
+        std::vector<uint8_t> result = ntt_inv(f_hat);
+        std::vector<uint32_t> resultWide(result.begin(), result.end());
+        if (resultWide == expectedResults[i]) {
+            std::cout << "Test case " << i << " passed." << std::endl;
+        } else {
+            std::cout << "Test case " << i << " failed." << std::endl;
+            std::cout << "Input: ";
+            for (uint32_t coeff : testCases[i]) {
+                std::cout << coeff << " ";
+            }
+            std::cout << std::endl;
+            std::cout << "Expected: ";
+            for (uint32_t coeff : expectedResults[i]) {
+                std::cout << coeff << " ";
+            }
+            std::cout << std::endl;
+            std::cout << "Result: ";
+            for (uint32_t coeff : resultWide) {
+                std::cout << coeff << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
 }
