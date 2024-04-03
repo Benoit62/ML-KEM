@@ -39,7 +39,7 @@ import (
 
 func main() {
 	// Generate a key pair.
-	encapsulationKey, decapsulationKey, err := GenerateKey()
+	/*encapsulationKey, decapsulationKey, err := GenerateKey()
 	if err != nil {
 		panic(err)
 	}
@@ -69,7 +69,10 @@ func main() {
 		panic("shared keys don't match")
 	}
 
-	fmt.Println("Shared keys match")
+	fmt.Println("Shared keys match")*/
+
+	nttResult := ntt(ringElement([256]fieldElement{0}))
+	fmt.Println("nttResult:", nttResult)
 
 }
 
