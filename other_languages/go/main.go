@@ -71,7 +71,8 @@ func main() {
 
 	fmt.Println("Shared keys match")*/
 
-	nttResult := ntt(ringElement([256]fieldElement{0}))
+	nttResult := ntt(ringElement([256]fieldElement{1, 2, 3, 4, 5, 6, 7}))
+	fmt.Print(ringElement([256]fieldElement{1, 2, 3, 4, 5, 6, 7}))
 	fmt.Println("nttResult:", nttResult)
 
 }
