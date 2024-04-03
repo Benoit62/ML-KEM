@@ -1,12 +1,9 @@
 #ifndef NTT_HPP
 #define NTT_HPP
+#include <vector>
+#include "BitRev7.hpp"
 
-#include "../sources/ntt.cpp"
-
-void computeNTT(std::vector<int>& f, int q);
-
-uint8_t BitRev7(uint8_t i);
-
+void computeNTT(std::vector<int>& f, int q, int n, int* roots);
 void testComputeNTT();
 
 #endif // NTT_HPP
