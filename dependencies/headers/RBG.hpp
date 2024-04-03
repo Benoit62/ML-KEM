@@ -3,11 +3,12 @@
 
 #include <cstdint>
 #include <vector>
-#include "../sources/RBG.cpp"
 
 using namespace std;
 
 // Function to generate random bytes using an approved RBG
-vector<uint8_t> generateRandomBytes(size_t numBytes);
+vector<uint8_t> generateRandomBytes(uint32_t numBytes);
+
+void testRandom(uint32_t test);
 
 #endif

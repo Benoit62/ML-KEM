@@ -1,11 +1,13 @@
 #ifndef BYTESTOBITS_HPP
 #define BYTESTOBITS_HPP
 
+#include <cstdint>
 #include <vector>
-#include "../sources/bytesToBits.cpp"
 
 using namespace std;
 
-vector<bool> bytesToBits(const vector<unsigned char>& B);
+vector<bool> bytesToBits(const vector<uint8_t>& B);
+
+void testBytesToBits();
 
 #endif
