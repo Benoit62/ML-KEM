@@ -3,16 +3,35 @@
 using namespace std;
 
 pair<vector<uint8_t>, vector<uint8_t>> G(vector<uint8_t> c) {
-    // Compute SHA3-152 of c
+    // Compute SHA3-512 of c
     CryptoPP::SHA3_512 hash;
     vector<uint8_t> digest(hash.DigestSize());
     hash.Update(c.data(), c.size());
+    hash.Final(digest.data());
 
     // Split digest into 2 seeds
     vector<uint8_t> rho(digest.begin(), digest.begin() + 32);
     vector<uint8_t> sigma(digest.begin() + 32, digest.end());
 
     return {rho, sigma};
+}
+
+vector<uint8_t> H(vector<uint8_t> s) {
+    CryptoPP::SHA3_256 hash;
+    vector<uint8_t> digest(hash.DigestSize());
+    hash.Update(s.data(), s.size());
+    hash.Final(digest.data());
+
+    return digest;
+}
+
+vector<uint8_t> J(vector<uint8_t> s) {
+    CryptoPP::SHAKE256 shake;
+    vector<uint8_t> digest(32);
+    shake.Update(s.data(), s.size());
+    shake.Final(digest.data());
+
+    return digest;
 }
 
 vector<uint8_t> XOF(vector<uint8_t> rho, int i, int j) {
