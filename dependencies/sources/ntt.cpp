@@ -1,24 +1,23 @@
-// main.cpp
+// ntt.cpp
+#include "../headers/ntt.hpp"
+#include "../headers/BitRev7.hpp"
 
-#include <iostream>
-#include <vector>
-#include "ntt.hpp"
+std::array<uint32_t, N> ntt(const std::array<uint32_t, N>& f) {
+    std::array<uint32_t, N> f_hat = f;
 
-int main() {
-    const int q = 256; // Modulo q
+    uint32_t k = 1;
+    for (uint32_t len = 128; len >= 2; len /= 2) {
+        for (uint32_t start = 0; start < N; start += 2 * len) {
+            uint32_t zeta = BitRev7(k) % q;
+            k++;
 
-    // Exemple : coefficients du polynôme d'entrée f
-    std::vector<int> f = {1, 2, 3, 4, 5, 6, 7, 8};
-
-    // Calcul de la NTT
-    computeNTT(f, q);
-
-    // Affichage des coefficients de f̂
-    std::cout << "Coefficients de f̂ : ";
-    for (int coeff : f) {
-        std::cout << coeff << " ";
+            for (uint32_t j = start; j < start + len; j++) {
+                uint32_t t = zeta * f_hat[j + len] % q;
+                f_hat[j + len] = (f_hat[j] - t) % q;
+                f_hat[j] = (f_hat[j] + t) % q;
+            }
+        }
     }
-    std::cout << std::endl;
 
-    return 0;
+    return f_hat;
 }

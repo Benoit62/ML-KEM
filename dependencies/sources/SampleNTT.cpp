@@ -1,11 +1,13 @@
-#include "SampleNTT.hpp"
+#include <iostream>
+#include <vector>
 #include <cmath>
 
+uint32_t q = 3329; 
 std::vector<int> SampleNTT(const std::vector<unsigned char>& B) {
     std::vector<int> a;
-    int i = 0;
-    int j = 0;
-    int d1, d2;
+    uint32_t i = 0;
+    uint32_t j = 0;
+    uint32_t d1, d2;
 
     while (j < 256) {
         d1 = B[i] + 256 * (B[i + 1] % 16);

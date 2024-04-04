@@ -1,11 +1,11 @@
-// #include <cstdint>
 #include <random>
+#include <iostream>
 #include "../headers/RBG.hpp"
 
 using namespace std;
 
 // Function to generate random bytes using an approved RBG
-vector<uint8_t> generateRandomBytes(size_t numBytes) {
+vector<uint8_t> generateRandomBytes(uint32_t numBytes) {
     // Create a seed sequence using a true random source (e.g., /dev/urandom on Unix-like systems)
     random_device rd;
 
@@ -22,3 +22,12 @@ vector<uint8_t> generateRandomBytes(size_t numBytes) {
     }
     return randomBytes;
 }
+
+// prints 32 random numbers coded on 8 bits
+void testRandom(uint32_t test) {
+    vector<uint8_t> lalala = generateRandomBytes(test);
+    for (uint8_t elem : lalala) {
+        cout << static_cast<int>(elem) << " ";
+    }
+    cout << endl;
+} 

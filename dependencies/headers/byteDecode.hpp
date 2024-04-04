@@ -1,13 +1,14 @@
 #ifndef BYTEDECODE_HPP
 #define BYTEDECODE_HPP
 
-#include <vector>
-#include <cmath>
 #include <cstdint>
-#include "../sources/byteDecode.cpp"
+#include <vector>
+#include "../headers/bytesToBits.hpp"
 
 using namespace std;
 
-vector<uint64_t> byteDecode(const vector<unsigned char>& B, int d);
+vector<uint32_t> byteDecode(const vector<uint8_t>& B, uint32_t d);
+
+void testByteDecode();
 
 #endif
