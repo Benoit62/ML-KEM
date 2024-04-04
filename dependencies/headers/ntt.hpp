@@ -1,13 +1,13 @@
-// ntt.hpp
 #ifndef NTT_HPP
 #define NTT_HPP
 
-#include <array>
+#include <vector>
 #include <cstdint>
 
-constexpr std::size_t N = 256;
-constexpr uint32_t q = 3329; // 2^12 + 1
+constexpr uint32_t q = 7;
+typedef long long ll;
 
-std::array<uint32_t, N> ntt(const std::array<uint32_t, N>& f);
+std::vector<ll> ntt(const std::vector<ll>& f, int sign);
+std::vector<ll> convolution(const std::vector<ll>& a, const std::vector<ll>& b);
 
 #endif // NTT_HPP
