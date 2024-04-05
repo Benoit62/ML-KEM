@@ -2,6 +2,8 @@
 #include "dependencies/headers/bytesToBits.hpp"
 #include "dependencies/headers/byteDecode.hpp"
 #include "dependencies/headers/samplePolyCBD.hpp"
+#include "dependencies/headers/multiplyNTTS.hpp"
+
 #include <iostream>
 
 using namespace std;
@@ -17,4 +19,5 @@ int main() {
     result = multiply(3, 4);
     cout << "3 * 4 = " << result << endl;
     return 0;
+    testMultiplyNTTs();
 }
