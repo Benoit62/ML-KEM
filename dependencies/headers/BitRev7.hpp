@@ -1,9 +1,8 @@
-// BitRev7.hpp
-#ifndef BITREV7_HPP
-#define BITREV7_HPP
+#ifndef BITREV_H
+#define BITREV_H
 
-#include <cstdint>
+#include "../sources/BitRev7.cpp"
 
-uint32_t BitRev7(uint32_t x);
+uint8_t BitRev7(uint8_t i);
 
-#endif // BITREV7_HPP
+#endif
