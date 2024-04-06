@@ -1,72 +1,66 @@
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <array>
 
 #include "../headers/BitRev7.hpp"
+#include "../headers/NTT.hpp"
 
+typedef long long ll;
 constexpr uint32_t q = 65537; // Modulus
 constexpr uint32_t zetas[128] = { /* Table des racines de l'unité modulo q */ };
 
-std::vector<uint8_t> ntt_inv(const std::vector<uint8_t>& f_hat) {
-    std::vector<uint8_t> f = f_hat;
-    uint32_t k = 127;
+ll mod_pow(ll a, ll n, ll mod) { ll ret = 1; ll p = a % mod; while (n) { if (n & 1) ret = ret * p % mod; p = p * p % mod; n >>= 1; } return ret; }
+
+std::array<ll, 256> ntt_inv(const std::array<ll, 256>& f_hat) {
+    std::array<ll, 256> f = f_hat;
+
+    uint32_t k = 127; // 2: k ← 127
 
     for (uint32_t len = 2; len <= 128; len <<= 1) {
         for (uint32_t start = 0; start < 256; start += 2 * len) {
-            uint32_t zeta = zetas[BitRev7(k)] % q;
-            k--;
+            ll zeta = mod_pow(zetas[BitRev7(k)], 1, q);
+            k--; 
 
             for (uint32_t j = start; j < start + len; j++) {
-                uint8_t t = f[j];
-                f[j] = static_cast<uint8_t>((t + f[j + len]) % q);
-                f[j + len] = static_cast<uint8_t>(zeta * static_cast<uint32_t>(f[j + len] - t) % q);
+                ll t = f[j];
+                f[j] = (t + f[j + len]) % q;
+                f[j + len] = (zeta * (f[j + len] - t)) % q;
             }
         }
     }
 
-    for (uint8_t& x : f) {
-        x = static_cast<uint8_t>((static_cast<uint32_t>(x) * 3303) % q);
+    for (ll& x : f) {
+        x = (x * 3303) % q;
     }
 
     return f;
 }
 
-void testNttInv() {
-    std::vector<std::vector<uint32_t>> testCases = {
-        {0},                                   // Cas trivial
-        {1, 2, 3, 4},                          // Cas avec quelques coefficients
-        {255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} // Cas avec un seul coefficient non nul
-    };
+int testBothNTT() {
+    std::array<uint32_t, 256> input;
+    // Initialiser le tableau d'entrée avec des valeurs quelconques
+    for (auto& x : input) {
+        x = rand() % q;
+    }
 
-    std::vector<std::vector<uint32_t>> expectedResults = {
-        {0},
-        {1, 65536, 65535, 65534},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
+    std::array<uint32_t, 256> transformed = ntt(input);
+    std::array<ll, 256> transformed_ll;
+    // Copier les valeurs de transformed dans transformed_ll
+    for (size_t i = 0; i < 256; i++) {
+        transformed_ll[i] = transformed[i];
+    }
 
-    for (size_t i = 0; i < testCases.size(); i++) {
-        std::vector<uint8_t> f_hat(testCases[i].begin(), testCases[i].end());
-        std::vector<uint8_t> result = ntt_inv(f_hat);
-        std::vector<uint32_t> resultWide(result.begin(), result.end());
-        if (resultWide == expectedResults[i]) {
-            std::cout << "Test case " << i << " passed." << std::endl;
-        } else {
-            std::cout << "Test case " << i << " failed." << std::endl;
-            std::cout << "Input: ";
-            for (uint32_t coeff : testCases[i]) {
-                std::cout << coeff << " ";
-            }
-            std::cout << std::endl;
-            std::cout << "Expected: ";
-            for (uint32_t coeff : expectedResults[i]) {
-                std::cout << coeff << " ";
-            }
-            std::cout << std::endl;
-            std::cout << "Result: ";
-            for (uint32_t coeff : resultWide) {
-                std::cout << coeff << " ";
-            }
-            std::cout << std::endl;
+    std::array<ll, 256> recovered = ntt_inv(transformed_ll);
+
+    // Vérifier que l'entrée est bien récupérée après la transformation et l'inverse
+    for (size_t i = 0; i < 256; i++) {
+        if (static_cast<uint32_t>(recovered[i]) != input[i]) {
+            std::cout << "Erreur à l'indice " << i << std::endl;
+            return 1;
         }
     }
+
+    std::cout << "Test réussi !" << std::endl;
+    return 0;
 }

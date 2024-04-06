@@ -4,6 +4,6 @@
 
 #include "../sources/NTT_inv.cpp"
 
-std::vector<uint8_t> ntt_inv(const std::vector<uint8_t>& f_hat);
+std::array<ll, 256> ntt_inv(const std::array<ll, 256>& f_hat);
 
 #endif
