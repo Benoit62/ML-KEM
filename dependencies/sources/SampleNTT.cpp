@@ -78,7 +78,7 @@ void testSampleNTT() {
     std::cout << "Test réussi !" << std::endl;
 }
 
-int test() {
+int main() {
     // Initialiser le générateur de nombres aléatoires
     srand(static_cast<unsigned int>(time(nullptr)));
 
