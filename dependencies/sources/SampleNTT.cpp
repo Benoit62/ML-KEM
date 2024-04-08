@@ -4,6 +4,16 @@
 #include <cstdlib>
 #include <ctime>
 
+//Vecteur testés pour j < 9
+// 0 0 0 0 0 0 0 0 0 -> 0 0 0 0 0 0 0 0 0  correct
+// 1 0 0 1 0 0 1 0 0 -> 1 0 1 0 1 0 0 0 0 0 correct
+// 1 0 1 1 0 1 1 0 1 -> 1 16 1 16 1 16 0 0 0 0 correct
+// 255 15 255 255 15 255 255 15 255 -> 0 0 0 0 0 0 0 0 0 correct (le triplet a été choisit pour toujours etre skip)
+
+// Principale probleme, si i depasse le nombre de valeur dans le vecteur d'entrée, la focntion va "inventé" des termes
+// Exemple avec j < 256 et 255 15 255 255 15 255 255 15 255 en entrée :
+// 0 0 0 0 0 0 0 0 0 0 1041 0 0 0 0 1632 102 1634 1568 1638 1568 1638 1568 518 1638 518 1638 518 102 1634 102 162 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+
 uint32_t q = 3329; 
 std::vector<int> SampleNTT(const std::vector<unsigned char>& B) {
     std::vector<int> a;
