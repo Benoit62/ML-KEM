@@ -4,7 +4,7 @@
 #include <vector>
 
 
-// Fonction pour calculer le produit de deux polynômes de degré 1 modulo un polynôme quadratique
+// Calcule le produit de deux polynômes de degré 1 modulo un polynôme quadratique
 Poly1 BaseCaseMultiply(const Poly1 a, const Poly1 b, const uint16_t q, const uint8_t gamma)  //  enlever q
 {
     uint64_t coeff0 = (static_cast<uint64_t>(a.coeff0) * b.coeff0 + static_cast<uint64_t>(a.coeff1) * b.coeff1 * static_cast<uint64_t>(gamma)) % static_cast<uint64_t>(q);

@@ -1,4 +1,7 @@
 #include "../headers/BitRev7.hpp"
+#include <iostream>
+
+using namespace std;
 
 /*uint32_t BitRev7(uint32_t x) {
     x = (x & 0x00000000ffffffffU) << 16 | (x & 0xffffffff00000000U) >> 16;
@@ -26,3 +29,33 @@ uint8_t BitRev7(uint8_t n) {
 
     return r;
 }
+
+// // Calcul le nombre de bits utilisés dans BitRev
+// uint8_t findNumBits() {
+//     uint32_t nTmp = n >> 1;  // constante à rajouter
+//     uint8_t numBits = 0;
+//     while (nTmp > 1) {
+//         nTmp >>= 1;
+//         numBits++;
+//     }
+//     return numBits;
+// }
+
+// // Inverse le sens de lecture d'une suite de 2 à 8 bits 
+// uint8_t BitRev(uint8_t octet, uint8_t numBits) {
+//     uint8_t reversedOctet = 0;
+//     for (uint8_t i = 1 - numBits % 2; i < numBits; i+=2) {
+//         reversedOctet |= octet << i & 1 << (numBits + i) / 2;
+//         reversedOctet |= octet >> i & 1 << (numBits - i) / 2;
+//     }
+//     return reversedOctet;
+// }
+
+// void testBitRev(uint32_t n) {
+//     uint8_t numBits = findNumBits();
+
+//     for (uint8_t i = 0; i < n / 2; i++) {
+//         cout << static_cast<int>(BitRev(i, numBits)) << endl;
+//     }
+
+// }

@@ -7,9 +7,10 @@
 #include <vector>
 
 uint16_t q = 3329;
-uint32_t n = 32;
+uint32_t n = 16;
 uint8_t zeta = 17;
 
+// Calcule le produit de deux représentations NTT
 vector<uint16_t> MultiplyNTTs(const vector<uint16_t>& fNTT, const vector<uint16_t>& gNTT) { 
     vector<uint16_t> hNTT(n);
     
