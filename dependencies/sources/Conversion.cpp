@@ -136,14 +136,14 @@ int main(){
     std::vector<uint32_t> expectedSingle = {10, 5, 15, 0, 10, 5, 15, 0};
     std::vector<uint32_t> singleResult = conv.byteDecode(singleBlock, d);
     // Print expectedSingle
-    for (size_t i = 0; i < expectedSingle.size(); i++) {
+    /*for (size_t i = 0; i < expectedSingle.size(); i++) {
         std::cout << expectedSingle[i] << " ";
     }
 
     // Print singleResult
     for (size_t i = 0; i < singleResult.size(); i++) {
         std::cout << singleResult[i] << " ";
-    }
+    }*/
 
     //assert(singleResult == expectedSingle);
 
