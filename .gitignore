@@ -1,6 +1,7 @@
 .vscode/
 .env
 .exe
+**/.exe
 test/
 logs/
 dist/
