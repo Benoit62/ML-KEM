@@ -1,27 +1,5 @@
-#ifndef BYTEARRAY_CPP
-#define BYTEARRAY_CPP
-
-#include "Byte.cpp"
-#include "BitArray.cpp"
-
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class ByteArray {
-    private:
-        vector<Byte> bytes;
-        int size;
-    public:
-        ByteArray(int size);
-        ~ByteArray();
-        vector<Byte> get();
-        size_t getSize();
-        void set(vector<Byte> byte);
-        void add(uint16_t nb, int index);
-        static ByteArray bitsToBytes(BitArray& b);
-};
+#include "ByteArray.hpp"
+#include "BitArray.hpp"
 
 ByteArray::ByteArray(int size){
     /*if(size % 8 != 0){
@@ -55,7 +33,7 @@ void ByteArray::add(uint16_t nb, int index){
     this->bytes[index].set(this->bytes[index].get() + nb);
 }
 
-static ByteArray bitsToBytes(BitArray& b) {
+/*static ByteArray bitsToBytes(BitArray& b) {
     size_t l = b.getSize() / 8;
     ByteArray bytes(l);
 
@@ -66,7 +44,11 @@ static ByteArray bitsToBytes(BitArray& b) {
     }
 
     return bytes;
+}*/
+
+ostream& operator<<(ostream& os, ByteArray& b){
+    for(int i = 0; i < b.getSize(); i++){
+        os << b.get()[i].get() << " ";
+    }
+    return os;
 }
-
-
-#endif // BYTEARRAY_CPP

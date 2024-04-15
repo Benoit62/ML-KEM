@@ -3,6 +3,7 @@ class Bit {
         bool bit;
     public:
         void reverse();
+        bool get();
         Bit(bool bit);
         ~Bit();
 };
@@ -10,6 +11,10 @@ class Bit {
 void Bit::reverse(){
     // Reverse
     this->bit = !this->bit;
+}
+
+bool Bit::get(){
+    return this->bit;
 }
 
 Bit::Bit(bool bit){

@@ -88,6 +88,13 @@ vector<uint8_t> bitsToBytes(BitArray& bits){
 int main(){
 
     BitArray bitArray(8);
+    bitArray.setBitArray({Bit(0), Bit(1), Bit(0), Bit(1), Bit(0), Bit(1), Bit(0), Bit(1)});
+
+    cout << "BitArray : " << bitArray << endl;
+
+    ByteArray byteArray(1);
+
+    cout << "ByteArray : " << byteArray << endl;
 
     return 0;
 }

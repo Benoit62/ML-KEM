@@ -1,26 +1,5 @@
 #include "BitArray.hpp"
-
-#include <iostream>
-#include <vector>
-#include <stdexcept>
-
-using namespace std;
-
-class BitArray {
-    private:
-        vector<Bit> bits;
-        int size;
-    public:
-        BitArray(int size);
-        ~BitArray();
-        vector<Bit> get();
-        int getSize();
-        void setBitArray(vector<Bit> bits);
-        bool getIndex(int index);
-        void reverse(int index);
-        void addBit(Bit bit);
-        //static BitArray bytesToBits(ByteArray bytes);
-};
+#include "ByteArray.hpp"
 
 BitArray::BitArray(int size){
     if(size % 8 != 0){
@@ -37,11 +16,11 @@ BitArray::~BitArray(){
     // Destructor
 }
 
-vector<Bit> BitArray::get(){
+vector<Bit> BitArray::get() {
     return this->bits;
 }
 
-int BitArray::getSize(){
+int BitArray::getSize() {
     return this->size;
 }
 
@@ -59,6 +38,13 @@ void BitArray::reverse(int index){
 
 void BitArray::addBit(Bit bit){
     this->bits.push_back(bit);
+}
+
+ostream& operator<<(ostream& os, BitArray& b){
+    for(int i = 0; i < b.getSize(); i++){
+        os << b.get()[i].get() ? "1" : "0";
+    }
+    return os;
 }
 
 /*static BitArray BitArray::bytesToBits(ByteArray bytes){
