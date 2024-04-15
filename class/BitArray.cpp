@@ -51,7 +51,7 @@ void BitArray::setBitIndex(int index, Bit bit){
     this->bits[index] = bit;
 }
 
-static BitArray BitArray::bytesToBits(ByteArray& bytes){
+/*static BitArray BitArray::bytesToBits(ByteArray& bytes){
     size_t l = bytes.getSize();
     BitArray bits(8 * l);
 
@@ -62,4 +62,4 @@ static BitArray BitArray::bytesToBits(ByteArray& bytes){
     }
 
     return bits;
-}
+}*/
