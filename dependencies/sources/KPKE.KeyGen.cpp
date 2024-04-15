@@ -19,23 +19,47 @@ pair<vector<uint8_t>, vector<uint8_t>> KPKE_KeyGen() {
 
     int N = 0;
 
+    vector<vector<vector<uint32_t>>> A;
     for(int i=0; i<k;i++) {
         for(int j=0; j<k; j++) {       
-            vector<int> A[i,j] = SampleNTT(XOF(rho, i, j));
+            A[i][j] = SampleNTT(XOF(rho, i, j));
         }
     }
 
+    vector<vector<uint32_t>> s;
     for(int i=0;i<k;i++) {
-        vector<uint32_t> s[i] = SamplePolyCBD_eta(PRF(sigma, N, eta1),eta1,q);
+        s[i] = SamplePolyCBD_eta(PRF(sigma, N, eta1),eta1,q);
         N++;
     }
 
+    vector<vector<uint32_t>> e;
     for(int i=0;i<k;i++) {
-        vector<uint32_t> e[i] = SamplePolyCBD_eta(PRF(sigma, N, eta1), eta1, q);
+        e[i] = SamplePolyCBD_eta(PRF(sigma, N, eta1), eta1, q);
         N++;
     }
 
     // TODO check with NTT func cause seems weird
     // TODO overload multiplication for matrix * vector
     // TODO overload vector addition
+
+    // prints outputs for debug
+    cout << "A = ";
+    for(uint32_t i=0;i<k;i++) {
+        for(uint32_t j=0;j<k;j++) {
+            for(uint32_t elem:A[i][j]) cout << A[i][j][elem] << " ";
+        }
+        cout << endl;
+    }
+
+    cout << "s = ";
+    for(uint32_t i=0;i<k;i++) {
+        for(uint32_t elem:s[i]) cout << s[i][elem] << " "; 
+    }
+
+    cout << endl << "e = ";
+    for(uint32_t i=0;i<k;i++) {
+        for(uint32_t elem:e[i]) cout << e[i][elem] << " "; 
+    }
+
+    return digest;
 }

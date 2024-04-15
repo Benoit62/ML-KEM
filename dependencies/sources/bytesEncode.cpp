@@ -38,7 +38,7 @@ void print_vector(const std::vector<u_int8_t>& v) {
     std::cout << "]" << std::endl;
 }
 
-u_int32_t testBytesEncode() {
+void testBytesEncode() {
     // Cas de test 1 : d = 8, F = {0, 1, 2, 3, ..., 255}
     std::vector<u_int32_t> F1(256);
     for (u_int32_t i = 0; i < 256; ++i) {
@@ -62,6 +62,4 @@ u_int32_t testBytesEncode() {
     }
     std::vector<u_int8_t> encoded3 = encodeBytes(F3, 12);
     print_vector(encoded3);  // Affiche les octets encodés
-
-    return 0;
 }
