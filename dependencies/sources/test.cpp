@@ -12,7 +12,7 @@
 using namespace std;
 
 
-/*ByteArray bitsToBytes(BitArray& b) {
+ByteArray bitsToBytes(BitArray& b) {
     size_t l = b.getSize() / 8;
     ByteArray bytes(l);
 
@@ -31,14 +31,14 @@ BitArray bytesToBits(ByteArray& bytes) {
 
     for (size_t i = 0; i < l; i++) {
         for (size_t j = 0; j < 8; j++) {
-            //bits.addBit(8 * i + j, bytes.get()[i].get() >> (7 - j) & 1); 
+            bits.setBitIndex(8 * i + j, bytes.get()[i].get() >> (7 - j) & 1); 
         }
     }
 
     return bits;
 }
 
-vector<uint8_t> bitsToBytes(BitArray& bits){
+/*vector<uint8_t> bitsToBytes(BitArray& bits){
     vector<uint8_t> bytes; // On crée un vecteur de bytes de la taille du nombre de bits divisé par 8
     uint8_t byte = 0;
     int bitIndex = 7; // LSB est à droite
@@ -65,7 +65,7 @@ vector<uint8_t> bitsToBytes(BitArray& bits){
     return bytes;
 }*/
 
-/*int main(){
+int main(){
 
     BitArray bitArray(8);
     // Set bit : 0 1 0 1 0 1 0 1
@@ -76,18 +76,15 @@ vector<uint8_t> bitsToBytes(BitArray& bits){
     
     // Print byteArray byteArray
     vector<Byte> bytes = byteArray.get();
-    for (Byte byte : bytes) {
-        cout << bitset<8>(byte.get()) << endl;
+    cout << bytes.size() << endl;
+
+    BitArray bitArray2 = bytesToBits(byteArray);
+    //Print bitArray2
+    vector<Bit> bits = bitArray2.get();
+    cout << bits.size() << endl;
+    for (Bit bit : bits) {
+        cout << bit.get();
     }
-
-    
-
-    return 0;
-}*/
-
-int main(){
-
-    BitArray bitArray(8);
 
     return 0;
 }

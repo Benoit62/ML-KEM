@@ -1,4 +1,9 @@
-#include "BitArray.hpp"
+#pragma once
+
+#ifndef BITARRAY_CPP
+#define BITARRAY_CPP
+
+#include "Bit.cpp"
 
 #include <iostream>
 #include <vector>
@@ -19,6 +24,7 @@ class BitArray {
         bool getIndex(int index);
         void reverse(int index);
         void addBit(Bit bit);
+        void setBitIndex(int index, Bit bit);
         //static BitArray bytesToBits(ByteArray bytes);
 };
 
@@ -74,3 +80,9 @@ void BitArray::addBit(Bit bit){
     }
     return b;
 }*/
+
+void BitArray::setBitIndex(int index, Bit bit){
+    this->bits[index] = bit;
+}
+
+#endif // BITARRAY_CPP

@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef BYTEARRAY_CPP
 #define BYTEARRAY_CPP
 
@@ -20,7 +22,19 @@ class ByteArray {
         size_t getSize();
         void set(vector<Byte> byte);
         void add(uint16_t nb, int index);
-        static ByteArray bitsToBytes(BitArray& b);
+
+        static ByteArray bitsToBytes(BitArray& b){
+            size_t l = b.getSize() / 8;
+            ByteArray bytes(l);
+
+            for (size_t i = 0; i < b.getSize(); i++) {
+                size_t byteIndex = i / 8;
+                size_t bitIndex = i % 8;
+                bytes.add((b.get()[i].get() ? 1 << (7 - bitIndex) : 0), byteIndex);
+            }   
+
+            return bytes;
+        }   
 };
 
 ByteArray::ByteArray(int size){
@@ -55,7 +69,7 @@ void ByteArray::add(uint16_t nb, int index){
     this->bytes[index].set(this->bytes[index].get() + nb);
 }
 
-static ByteArray bitsToBytes(BitArray& b) {
+/*static ByteArray ByteArray::bitsToBytes(BitArray& b) {
     size_t l = b.getSize() / 8;
     ByteArray bytes(l);
 
@@ -66,7 +80,7 @@ static ByteArray bitsToBytes(BitArray& b) {
     }
 
     return bytes;
-}
+}*/
 
 
 #endif // BYTEARRAY_CPP
