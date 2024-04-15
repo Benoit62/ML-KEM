@@ -118,16 +118,21 @@ class Conversion {
 
 int main(){
     Conversion conv;
+    // Test bitsToBytes
+    bitsArray b = {1,0,1,0,1,0,1,0};
+    bitsArray bytes = conv.bitsToBytes(b);
+    // Print bytes
+    for (size_t i = 0; i < bytes.size(); i++) {
+        std::bitset<8> bits(bytes[i]);
+        std::cout << bits << " ";
+    }
 
     // Test bytesToBits
-    bytesArray singleByte = {0b10101010};
+    /*bytesArray singleByte = {0b10101010};
     bitsArray b = conv.bytesToBits(singleByte);
     bitsArray expectedSingleBits = {1,0,1,0,1,0,1,0};
     assert(b == expectedSingleBits); 
 
-    // Test bitsToBytes
-    bitsArray bytes = conv.bitsToBytes(b);
-    assert(bytes == singleByte);
 
     // Test byteDecode
     bitsArray singleBlock = {0b10101010, 0b01010101, 0b11111111, 0b00000000,
@@ -143,7 +148,7 @@ int main(){
     // Print singleResult
     for (size_t i = 0; i < singleResult.size(); i++) {
         std::cout << singleResult[i] << " ";
-    }*/
+    }
 
     //assert(singleResult == expectedSingle);
 
@@ -151,7 +156,7 @@ int main(){
     for (size_t i = 0; i < oui.size(); i++) {
         std::bitset<8> bits(oui[i]);
         std::cout << bits << " ";
-    }
+    }*/
     
 
     

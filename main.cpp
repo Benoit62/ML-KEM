@@ -1,8 +1,4 @@
 #include "dependencies/headers/template.hpp"
-#include "dependencies/headers/bytesToBits.hpp"
-#include "dependencies/headers/byteDecode.hpp"
-#include "dependencies/headers/samplePolyCBD.hpp"
-#include "dependencies/headers/multiplyNTTS.hpp"
 
 #include <iostream>
 
