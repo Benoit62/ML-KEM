@@ -21,7 +21,8 @@ class ByteArray {
         size_t getSize();
         void set(vector<Byte> byte);
         void add(uint16_t nb, int index);
-        //static ByteArray bitsToBytes(BitArray& b);
+
+        static ByteArray bitsToBytes(BitArray& b);
 
         // Déclaration de la surcharge de l'opérateur <<
         friend ostream& operator<<(ostream& os, ByteArray& b);

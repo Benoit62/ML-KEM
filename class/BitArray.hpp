@@ -24,7 +24,8 @@ class BitArray {
         void reverse(int index);
         void addBit(Bit bit);
         void setBitIndex(int index, Bit bit);
-        //static BitArray bytesToBits(ByteArray bytes);
+
+        static BitArray bytesToBits(ByteArray& bytes);
 
         // Déclaration de la surcharge de l'opérateur <<
         friend ostream& operator<<(ostream& os, BitArray& b);
