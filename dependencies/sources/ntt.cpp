@@ -1,6 +1,7 @@
 // ntt.cpp
 #include "../headers/ntt.hpp"
-
+#include <iostream>
+#include "../headers/NTT_inv.hpp"
 #include "../headers/BitRev7.hpp"
 
 typedef long long ll;
@@ -29,3 +30,30 @@ std::array<uint32_t, N> ntt(const std::array<uint32_t, N>& f) {
     return f_hat;
 }
 
+int testBothNTT() {
+    std::array<uint32_t, 256> input;
+    // Initialiser le tableau d'entrée avec des valeurs quelconques
+    for (auto& x : input) {
+        x = rand() % q;
+    }
+
+    std::array<uint32_t, 256> transformed = ntt(input);
+    std::array<ll, 256> transformed_ll;
+    // Copier les valeurs de transformed dans transformed_ll
+    for (size_t i = 0; i < 256; i++) {
+        transformed_ll[i] = transformed[i];
+    }
+
+    std::array<ll, 256> recovered = ntt_inv(transformed_ll);
+
+    // Vérifier que l'entrée est bien récupérée après la transformation et l'inverse
+    for (size_t i = 0; i < 256; i++) {
+        if (static_cast<uint32_t>(recovered[i]) != input[i]) {
+            std::cout << "Erreur à l'indice " << i << std::endl;
+            return 1;
+        }
+    }
+
+    std::cout << "Test réussi !" << std::endl;
+    return 0;
+}
