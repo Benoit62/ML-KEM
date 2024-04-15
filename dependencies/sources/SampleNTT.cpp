@@ -2,7 +2,9 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
+#include <cstdint>
 #include <ctime>
+#include "../headers/SampleNTT.hpp"
 
 //Vecteur testés pour j < 9
 // 0 0 0 0 0 0 0 0 0 -> 0 0 0 0 0 0 0 0 0  correct
@@ -15,8 +17,8 @@
 // 0 0 0 0 0 0 0 0 0 0 1041 0 0 0 0 1632 102 1634 1568 1638 1568 1638 1568 518 1638 518 1638 518 102 1634 102 162 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 
 uint32_t q = 3329; 
-std::vector<int> SampleNTT(const std::vector<unsigned char>& B) {
-    std::vector<int> a;
+std::vector<uint32_t> SampleNTT(const std::vector<uint8_t>& B) {
+    std::vector<uint32_t> a;
     uint32_t i = 0;
     uint32_t j = 0;
     uint32_t d1, d2;
@@ -40,16 +42,6 @@ std::vector<int> SampleNTT(const std::vector<unsigned char>& B) {
     return a;
 }
 
-
-// Fonction pour générer un vecteur de bytes aléatoires
-std::vector<unsigned char> generateRandomBytes(size_t size) {
-    std::vector<unsigned char> bytes(size);
-    for (size_t i = 0; i < size; ++i) {
-        bytes[i] = static_cast<unsigned char>(rand());
-    }
-    return bytes;
-}
-
 // Fonction de test pour SampleNTT
 void testSampleNTT() {
     // Initialiser le générateur de nombres aléatoires
@@ -59,7 +51,7 @@ void testSampleNTT() {
     std::vector<unsigned char> randomBytes = generateRandomBytes(768);
 
     // Appeler SampleNTT
-    std::vector<int> result = SampleNTT(randomBytes);
+    std::vector<uint32_t> result = SampleNTT(randomBytes);
 
     // Vérifier la taille du résultat
     if (result.size() != 256) {
@@ -68,7 +60,7 @@ void testSampleNTT() {
     }
 
     // Vérifier les valeurs du résultat
-    for (int value : result) {
+    for (uint32_t value : result) {
         if (value < 0 || value >= q) {
             std::cout << "Erreur : valeur invalide dans le résultat (" << value << ")" << std::endl;
             return;
@@ -89,18 +81,18 @@ int main() {
     };
 
     std::cout << "Input :" << std::endl;
-    for (unsigned char byte : randomBytes) {
+    for (uint8_t byte : randomBytes) {
         std::cout << std::hex << static_cast<int>(byte) << " ";
     }
     std::cout << std::dec << std::endl;
 
     // Appel de SampleNTT
-    std::vector<int> result = SampleNTT(randomBytes);
+    std::vector<uint32_t> result = SampleNTT(randomBytes);
 
 
 
     std::cout << "Output :" << std::endl;
-    for (int value : result) {
+    for (uint32_t value : result) {
         std::cout << value << " ";
     }
     std::cout << std::endl;

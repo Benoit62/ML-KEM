@@ -1,9 +1,8 @@
 #ifndef SAMPLENTTHEADER_HPP
 #define SAMPLENTTHEADER_HPP
-#include "../sources/SampleNTT.cpp"
-
 #include <vector>
+#include "RBG.hpp"
 
-std::vector<int> SampleNTT(const std::vector<unsigned char>& B);
+std::vector<uint32_t> SampleNTT(const std::vector<uint8_t>& B);
 
 #endif

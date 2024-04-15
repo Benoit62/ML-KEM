@@ -34,6 +34,24 @@ vector<uint8_t> J(vector<uint8_t> s) {
     return digest;
 }
 
+vector<uint8_t> PRF(vector<uint8_t> s, int b, int eta) {
+    // Create a SHAKE256 object
+    CryptoPP::SHAKE256 shake;
+
+    // Concatenate s and b
+    vector<uint8_t> input(s.begin(), s.end());
+    vector<uint8_t> bBytes(sizeof(uint32_t));
+    memcpy(bBytes.data(), &b, sizeof(uint32_t));
+    input.insert(input.end(), bBytes.begin(), bBytes.end());
+
+    // Compute SHAKE256(s||b, 64 * eta)
+    vector<uint8_t> digest(64 * eta);
+    shake.Update(input.data(), input.size());
+    shake.Final(digest.data());
+
+    return digest;
+}
+
 vector<uint8_t> XOF(vector<uint8_t> rho, int i, int j) {
     CryptoPP::SHAKE128 shake;
 
@@ -50,26 +68,8 @@ vector<uint8_t> XOF(vector<uint8_t> rho, int i, int j) {
     inputData.insert(inputData.end(), jBytes.begin(), jBytes.end());
 
     // Compute the SHAKE128 of the input data
-    vector<uint8_t> digest(32);
+    vector<uint8_t> digest;
     shake.Update(inputData.data(), inputData.size());
-    shake.Final(digest.data());
-
-    return digest;
-}
-
-vector<uint8_t> PRF(vector<uint8_t> s, int b, int eta) {
-    // Create a SHAKE256 object
-    CryptoPP::SHAKE256 shake;
-
-    // Concatenate s and b
-    vector<uint8_t> input(s.begin(), s.end());
-    vector<uint8_t> bBytes(sizeof(uint32_t));
-    memcpy(bBytes.data(), &b, sizeof(uint32_t));
-    input.insert(input.end(), bBytes.begin(), bBytes.end());
-
-    // Compute SHAKE256(s||b, 64 * eta)
-    vector<uint8_t> digest(64 * eta);
-    shake.Update(input.data(), input.size());
     shake.Final(digest.data());
 
     return digest;
