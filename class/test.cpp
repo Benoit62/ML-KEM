@@ -39,49 +39,38 @@ BitArray bytesToBits(ByteArray& bytes) {
 }
 
 
-ByteArray encodeBytes(IntArray& F, int d) {
-    int m;
-    if (d < 12) {
-        m = (1 << d);
-    } else {
-        m = 4096;  // q = 2^12 pour d = 12
-    }
-
+ByteArray byteEncode(IntArray& F, uint32_t d) {
     BitArray b(F.getSize() * d);
+    ByteArray B(F.getSize() * d);
 
     for (int i = 0; i < F.getSize(); i++) {
-        uint16_t a = F.get(i);
+        uint32_t a = F.get(i);
+
         for (int j = 0; j < d; j++) {
-            b.get()[i * d + (d - 1 - j)] = a % 2; // Modification pour que le bit de poids faible soit à droite
-            a = (a - b.get()[i * d + (d - 1 - j)].get()) / 2;
+            b.setBitIndex(i * d + j, (a >> (d - 1 - j)) & 1); // Mettre le bit de poids fort à gauche
         }
     }
 
-    //Print b
-    vector<Bit> bits = b.get();
-    cout << bits.size() << endl;
-    for (Bit bit : bits) {
-        cout << bit.get();
-    }
-
-    return bitsToBytes(b);
+    B = bitsToBytes(b);
+    return B;
 }
 
-/*std::vector<uint32_t> byteDecode(const bytesArray& B, uint32_t d) {
-    bitsArray bits = bytesToBits(B);
+
+IntArray byteDecode(ByteArray& B, uint32_t d) {
+    BitArray bits = bytesToBits(B);
     uint32_t m = (d < 12) ? (1 << d) : 3329; // m = 2^d si d < 12, sinon m = 3329
 
-    std::vector<uint32_t> F(256); // Tableau de taille 256
+    IntArray F(256); // Tableau de taille 256
 
     for (int i = 0; i < 256; i++) { // Pour chaque élément de F
         uint32_t sum = 0;
         for (int j = 0; j < d; j++) {   // Pour chaque élément de d
-            sum += bits[i * d + j] * (1 << j); // On ajoute à sum le produit de l'élément de bits correspondant à l'élément de F et de d
+            sum += bits.getIndex(i * d + j) * (1 << j); // On ajoute à sum le produit de l'élément de bits correspondant à l'élément de F et de d
         }
-        F[i] = sum % m; // On ajoute à F la somme modulo m
+        F.set(i, sum % m); // On ajoute à F la somme modulo m
     }
     return F;
-}*/
+}
 
 
 int main(){
@@ -107,13 +96,27 @@ int main(){
 
     IntArray F({15, 3});
 
-    ByteArray oui = encodeBytes(F, 8);
+    ByteArray oui = byteEncode(F, 12);
     // Print oui
     vector<Byte> bytes = oui.get();
     cout << bytes.size() << endl;
+    // Print les bits avec bitset
     for (Byte byte : bytes) {
-        cout << byte.get() << endl;
+        std::bitset<8> bits(byte.get());
+        cout << bits << " ";
     }
+
+    /*ByteArray singleBlock(8);
+    singleBlock.set({0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b10101010, 0b01010101, 0b11111111, 0b00000000});
+    
+    uint32_t d = 8;
+    std::vector<uint32_t> expectedSingle = {10, 5, 15, 0, 10, 5, 15, 0};
+    IntArray singleResult = byteDecode(singleBlock, d);
+    // Print single result
+    vector<uint16_t> results = singleResult.get();
+    for (uint16_t result : results) {
+        cout << result << endl;
+    }*/
 
     return 0;
 }

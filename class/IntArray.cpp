@@ -20,6 +20,8 @@ class IntArray {
     // Constructors
     IntArray() : data(MAX_SIZE, 0) {}
 
+    IntArray(int size) : data(size, 0) {}
+
     IntArray(const vector<uint16_t>& values) {
         if(values.size() > MAX_SIZE) { cout << "Input vector size exceeds limit."; }
         else { data=values; }
@@ -32,6 +34,10 @@ class IntArray {
     
     uint16_t get(int index) {
         return this->data[index];
+    }
+
+    vector<uint16_t> get() {
+        return this->data;
     }
 
     // Destructor
