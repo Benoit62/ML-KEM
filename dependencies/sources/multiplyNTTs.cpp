@@ -25,8 +25,6 @@ vector<uint16_t> MultiplyNTTs(const vector<uint16_t>& fNTT, const vector<uint16_
         hNTT[2 * i + 1] = product.coeff1;
     }
 
-
-
     return hNTT;
 }
 
