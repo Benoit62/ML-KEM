@@ -55,36 +55,47 @@ ByteArray byteEncode(IntArray& F, uint32_t d) {
     return B;
 }
 
-
 IntArray byteDecode(ByteArray& B, uint32_t d) {
-    BitArray bits = bytesToBits(B);
-    uint32_t m = (d < 12) ? (1 << d) : 3329; // m = 2^d si d < 12, sinon m = 3329
+    BitArray b = bytesToBits(B);
+    IntArray F(B.getSize()*d);
 
-    IntArray F(256); // Tableau de taille 256
-
-    for (int i = 0; i < 256; i++) { // Pour chaque élément de F
+    for (int i = 0; i < B.getSize(); i++) {
         uint32_t sum = 0;
-        for (int j = 0; j < d; j++) {   // Pour chaque élément de d
-            sum += bits.getIndex(i * d + j) * (1 << j); // On ajoute à sum le produit de l'élément de bits correspondant à l'élément de F et de d
+
+        for (int j = 0; j < d; j++) {
+            sum += b.getIndex(i * d + j) * pow(2, d - 1 - j);
         }
-        F.set(i, sum % m); // On ajoute à F la somme modulo m
+
+        F.set(sum % (d < 12 ? 2 * d : static_cast<uint32_t>(pow(2, d))), i);
     }
+
     return F;
 }
 
 
+
 int main(){
 
-    /*BitArray bitArray(8);
+    cout << "----- BitArray -----" << endl;
+
+    BitArray bitArray(8);
     // Set bit : 0 1 0 1 0 1 0 1
     bitArray.setBitArray({Bit(0), Bit(1), Bit(0), Bit(1), Bit(0), Bit(1), Bit(0), Bit(1)});
     // BitsToBytes
-    ByteArray byteArray = bitsToBytes(bitArray);
+    ByteArray byteArray = ByteArray::bitsToBytes(bitArray);
     // Expected byte array : 0b01010101
     
     // Print byteArray byteArray
     vector<Byte> bytes = byteArray.get();
     cout << bytes.size() << endl;
+    // Print les bits avec bitset
+    for (Byte byte : bytes) {
+        std::bitset<8> bits(byte.get());
+        cout << bits << " ";
+    }
+
+    cout << endl;
+    cout << "----- BytesToBits -----" << endl;
 
     BitArray bitArray2 = bytesToBits(byteArray);
     //Print bitArray2
@@ -92,11 +103,14 @@ int main(){
     cout << bits.size() << endl;
     for (Bit bit : bits) {
         cout << bit.get();
-    }*/
+    }
 
-    IntArray F({15, 3});
+    cout << endl;
+    cout << "----- Byte encode -----" << endl;
 
-    ByteArray oui = byteEncode(F, 12);
+    /*IntArray F({15, 3});
+
+    ByteArray oui = byteEncode(F, 8);
     // Print oui
     vector<Byte> bytes = oui.get();
     cout << bytes.size() << endl;
@@ -105,17 +119,19 @@ int main(){
         std::bitset<8> bits(byte.get());
         cout << bits << " ";
     }
+    cout << endl;
+    cout << "----- Byte decode -----" << endl;
 
-    /*ByteArray singleBlock(8);
+    ByteArray singleBlock(8);
     singleBlock.set({0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b10101010, 0b01010101, 0b11111111, 0b00000000});
     
     uint32_t d = 8;
     std::vector<uint32_t> expectedSingle = {10, 5, 15, 0, 10, 5, 15, 0};
-    IntArray singleResult = byteDecode(singleBlock, d);
+    IntArray singleResult = byteDecode(oui, d);
     // Print single result
     vector<uint16_t> results = singleResult.get();
     for (uint16_t result : results) {
-        cout << result << endl;
+        cout << result << " ";
     }*/
 
     return 0;
