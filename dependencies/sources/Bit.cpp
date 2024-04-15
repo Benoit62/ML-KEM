@@ -1,14 +1,23 @@
-#include "../dependencies/headers/Bit.hpp"
+#ifndef BIT_H
+#define BIT_H
 
-void Bit::reverse(){
-    // Reverse
-    this->bit = !this->bit;
-}
+class Bit {
+    private:
+        bool bit;
+    public:
+        void reverse(){
+            // Reverse
+            this->bit = !this->bit;
+        }
+        Bit(bool bit){
+            this->bit = bit;
+        }
+        ~Bit(){
+            // Destructor
+        }
+        bool get(){
+            return this->bit;
+        }
+};
 
-Bit::Bit(bool bit){
-    this->bit = bit;
-}
-
-Bit::~Bit(){
-    // Destructor
-}
+#endif // BIT_H
