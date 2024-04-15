@@ -47,6 +47,10 @@ ostream& operator<<(ostream& os, BitArray& b){
     return os;
 }
 
+void BitArray::setBitIndex(int index, Bit bit){
+    this->bits[index] = bit;
+}
+
 /*static BitArray BitArray::bytesToBits(ByteArray bytes){
     size_t l = bytes.size();
     BitArray b(8 * l);
