@@ -1,4 +1,4 @@
-#include <vector>
+//#include <vector>
 #include <cstdint>
 #include <iostream>
 #include <array>
@@ -8,24 +8,26 @@
 
 typedef long long ll;
 constexpr uint32_t q = 65537; // Modulus
-constexpr uint32_t zetas[128] = { /* Table des racines de l'unité modulo q */ };
+uint32_t zetas[128] = { /* Table des racines de l'unité modulo q */ };
 
 ll mod_pow(ll a, ll n, ll mod) { ll ret = 1; ll p = a % mod; while (n) { if (n & 1) ret = ret * p % mod; p = p * p % mod; n >>= 1; } return ret; }
 
 std::array<ll, 256> ntt_inv(const std::array<ll, 256>& f_hat) {
     std::array<ll, 256> f = f_hat;
 
-    uint32_t k = 127; // 2: k ← 127
+    uint32_t k = 127;
 
     for (uint32_t len = 2; len <= 128; len <<= 1) {
         for (uint32_t start = 0; start < 256; start += 2 * len) {
-            ll zeta = mod_pow(zetas[BitRev7(k)], 1, q);
-            k--; 
+            ll zeta = mod_pow(static_cast<ll>(zetas[k]), 1, q);
+            k--;
 
             for (uint32_t j = start; j < start + len; j++) {
                 ll t = f[j];
-                f[j] = (t + f[j + len]) % q;
-                f[j + len] = (zeta * (f[j + len] - t)) % q;
+                ll tmp1 = (f[j] + f[j + len]) % q;
+                f[j] = (tmp1 + q) % q;
+                ll tmp2 = (zeta * (f[j + len] - t)) % q;
+                f[j + len] = (tmp2 + q) % q;
             }
         }
     }
@@ -36,6 +38,7 @@ std::array<ll, 256> ntt_inv(const std::array<ll, 256>& f_hat) {
 
     return f;
 }
+
 
 int testBothNTT() {
     std::array<uint32_t, 256> input;
