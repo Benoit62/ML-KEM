@@ -38,33 +38,6 @@ BitArray bytesToBits(ByteArray& bytes) {
     return bits;
 }
 
-/*vector<uint8_t> bitsToBytes(BitArray& bits){
-    vector<uint8_t> bytes; // On crée un vecteur de bytes de la taille du nombre de bits divisé par 8
-    uint8_t byte = 0;
-    int bitIndex = 7; // LSB est à droite
-
-    for (Bit bit : bits.get()) {
-        byte |= static_cast<uint8_t>(bit.get()) << bitIndex; // On cast le bit en uint8_t pour pouvoir le décaler
-
-        bitIndex--;
-
-        if (bitIndex < 0) {
-            Byte b(byte); // On caste le byte en Byte pour pouvoir l'ajouter au vecteur
-            cout << "Byte : " << bitset<8>(b.get()) << endl;
-            bytes.push_back(byte);
-            byte = 0;
-            bitIndex = 7;
-        }
-    }
-
-    if (bitIndex < 7) {
-        bytes.push_back(byte);
-    }
-
-    //ByteArray bytesArray(bytes.size());
-    return bytes;
-}*/
-
 int main(){
 
     BitArray bitArray(8);

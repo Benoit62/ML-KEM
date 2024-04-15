@@ -69,7 +69,7 @@ void ByteArray::add(uint16_t nb, int index){
     this->bytes[index].set(this->bytes[index].get() + nb);
 }
 
-/*static ByteArray ByteArray::bitsToBytes(BitArray& b) {
+/*static ByteArray bitsToBytes(BitArray& b) {
     size_t l = b.getSize() / 8;
     ByteArray bytes(l);
 
