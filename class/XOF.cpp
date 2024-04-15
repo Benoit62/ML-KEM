@@ -10,7 +10,6 @@ class XOF {
     private:
 
     // Attributes
-    CryptoPP::SHAKE128 shake;
     vector<uint8_t> inputData;
     int size;
 
@@ -30,8 +29,10 @@ class XOF {
         this->inputData.insert(this->inputData.end(), jBytes.begin(), jBytes.end());
     }
 
+    // Methods
     vector<uint8_t> init() {
-        vector<uint8_t> digest(shake.DigestSize());
+        CryptoPP::SHAKE128 shake(32);
+        vector<uint8_t> digest(32);
         shake.Update(this->inputData.data(), this->inputData.size());
         shake.Final(digest.data());
 
@@ -41,8 +42,8 @@ class XOF {
         return digest;
     }
 
-    // Methods
     vector<uint8_t> next() {
+        CryptoPP::SHAKE128 shake(size+3);
         shake.Restart();
         vector<uint8_t> digest(size+3);
         this->size+=3;
