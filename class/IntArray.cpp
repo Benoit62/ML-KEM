@@ -26,15 +26,19 @@ class IntArray {
     } 
 
     // Methods
-    void IntArray::set(uint16_t newValue, int index) {
+    void set(uint16_t newValue, int index) {
         this->data[index] = newValue;
     }
     
-    uint16_t IntArray::get(int index) {
+    uint16_t get(int index) {
         return this->data[index];
     }
 
     // Destructor
-    IntArray::~IntArray() {}
+    ~IntArray() {}
+
+    size_t getSize() {
+        return this->data.size();
+    }
     
 };
