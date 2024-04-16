@@ -11,30 +11,30 @@ class IntArray {
 
     private:
     
-    // Attributes
-    vector<uint16_t> data;
-    static const int MAX_SIZE = n;
+        // Attributes
+        vector<uint16_t> data;
+        static const int MAX_SIZE = n;
 
     public:
 
-    // Constructors
-    IntArray();
+        // Constructors
+        IntArray();
 
-    IntArray(int size);
+        IntArray(int size);
 
-    IntArray(const vector<uint16_t>& values);
+        IntArray(const vector<uint16_t>& values);
 
-    // Methods
-    void set(uint16_t newValue, int index);
-    
-    uint16_t get(int index);
+        // Methods
+        void set(uint16_t newValue, int index);
+        
+        uint16_t get(int index);
 
-    vector<uint16_t> get();
+        vector<uint16_t> get();
 
-    size_t getSize();
+        size_t getSize();
 
-    // Destructor
-    ~IntArray();
+        // Destructor
+        ~IntArray();
 };
 
 // Constructors
