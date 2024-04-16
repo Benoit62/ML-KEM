@@ -170,3 +170,48 @@ private:
     std::array<NTTCoef, n> coefficients;
     const std::size_t maxSize = n;
 };
+
+
+
+template <typename PolyCoef>
+class NTT {
+public:
+    template <std::size_t n>
+    NTT(const std::array<PolyCoef, n>& f, const std::array<uint16_t, 128>& zetas) {
+        std::array<uint32_t, N> f_hat = f;
+
+        uint32_t k = 1;
+
+        for (uint32_t len = 128; len >= 2; len /= 2) {
+            for (uint32_t start = 0; start < N; start += 2 * len) {
+                uint32_t zeta = mod_pow(17, BitRev7(k), q);
+                zetas[k] = zeta;
+                k++;
+
+                for (uint32_t j = start; j < start + len; j++) {
+                    int64_t t = static_cast<int64_t>(zeta) * static_cast<int64_t>(f_hat[j + len]);
+                    f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
+                    f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
+                }
+            }
+        }
+        
+        coefficients = f_hat;
+    }
+
+    PolyCoef get(std::size_t i) const {
+        return coefficients[i];
+    }
+
+    void set(std::size_t i, const PolyCoef& coef) {
+        coefficients[i] = coef;
+    }
+
+    static NTT<PolyCoef> SampleNTT(const XOF& xof) {
+        // Implémentation de la fonction SampleNTT 
+    }
+
+private:
+    std::array<PolyCoef, n> coefficients;
+    const std::size_t maxSize = n;
+};
