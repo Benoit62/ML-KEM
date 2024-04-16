@@ -49,7 +49,8 @@ int main(){
 
     IntArray F({15, 3});
 
-    ByteArray oui = ByteArray::byteEncode(F, 8);
+    uint32_t d = 12;
+    ByteArray oui = ByteArray::byteEncode(F, d);
     // Print oui
     vector<Byte> bytes2 = oui.get();
     cout << bytes2.size() << endl;
@@ -64,7 +65,6 @@ int main(){
     ByteArray singleBlock(8);
     singleBlock.set({0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b10101010, 0b01010101, 0b11111111, 0b00000000});
     
-    uint32_t d = 8;
     std::vector<uint32_t> expectedSingle = {10, 5, 15, 0, 10, 5, 15, 0};
     IntArray singleResult = ByteArray::byteDecode(oui, d);
     // Print single result
