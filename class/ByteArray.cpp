@@ -22,12 +22,26 @@ vector<Byte> ByteArray::get(){
     return this->bytes;
 }
 
+vector<uint8_t> ByteArray::getVec() {
+    vector<uint8_t> result;
+    for(int i=0;i<this->bytes.size();i++) {
+        result[i]=this->bytes[i].get();
+    }
+    return result;
+}
+
 size_t ByteArray::getSize(){
     return this->size;
 }
 
 void ByteArray::set(vector<Byte> byte){
     this->bytes = byte;
+}
+
+void ByteArray::setVec(vector<uint8_t> vec) {
+    for(int i=0;i<vec.size();i++) {
+        this->bytes[i].set(vec[i]);
+    }
 }
 
 void ByteArray::add(uint16_t nb, int index){
