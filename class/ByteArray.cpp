@@ -66,7 +66,7 @@ ByteArray ByteArray::byteEncode(IntArray& F, uint32_t d) {
 
 IntArray ByteArray::byteDecode(ByteArray& B, uint32_t d) {
     BitArray b = BitArray::bytesToBits(B);
-    IntArray F(B.getSize()*d);
+    IntArray F(B.getSize()+1);
 
     for (int i = 0; i < B.getSize(); i++) {
         uint32_t sum = 0;
