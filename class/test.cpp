@@ -55,26 +55,30 @@ int main(){
     cout << "Expected byte array : 00000000 11110000 00000011" << endl;
     cout << byteArray3 << endl << endl;
 
+    IntArray decodeArray = ByteArray::byteDecode(byteArray3, d);
+    cout << "Taille du tableau d'entiers : " << decodeArray.getSize() << endl;
+    cout << "Expected int array : 15 3" << endl;
+    cout << decodeArray << endl << endl;
+
 
     cout << "----- Byte decode -----" << endl;
 
-    ByteArray singleBlock(8);
+    ByteArray singleBlock(9);
     singleBlock.set({0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b00001111});
     cout << "Taille du tableau de bytes : " << singleBlock.getSize() << endl;
-    cout << "Expected byte array : 10101010 01010101 11111111 00000000 10101010 01010101 11111111 00000000" << endl;
+    cout << "Expected byte array : 10101010 01010101 11111111 00000000 10101010 01010101 11111111 00000000 00001111" << endl;
     cout << singleBlock << endl << endl;
     
-    std::vector<uint32_t> expectedSingle = {10, 5, 15, 0, 10, 5, 15, 0};
-    IntArray singleResult = ByteArray::byteDecode(byteArray3, d);
-    cout << "Taille du tableau d'entiers : " << singleResult.getSize() << endl;
-    cout << "Expected int array : 10 5 15 0 10 5 15 3840" << endl;
-    cout << singleResult << endl << endl;
+    IntArray singleArray = ByteArray::byteDecode(singleBlock, 8);
+    cout << "Taille du tableau d'entiers : " << singleArray.getSize() << endl;
+    cout << "Expected int array : 10, 5, 15, 0, 10, 5, 15, 0, 15" << endl;
+    cout << singleArray << endl << endl;
+    
     
 
     cout << "----- IntArray -----" << endl;
-    IntArray F2({15, 3, 2501, 0});
-    // Expected int array : 15 3, 2501 0
-    cout << "Expected int array : 15 3 2501 0" << endl;
+    IntArray F2({2725, 1535, 10, 2645, 4080, 255});
+    cout << "Expected int array : 2725, 1535, 10, 2645, 4080, 255" << endl;
     cout << F2 << endl << endl;
 
 
@@ -82,8 +86,14 @@ int main(){
     ByteArray byteArray4 = ByteArray::byteEncode(F2, d);
     // Expected byte array : 0b00001111 0b00000011
     cout << "Taille du tableau de bytes : " << byteArray4.getSize() << endl;
-    cout << "Expected byte array : 10101010 01010101 11111111 00000000 10101010 01010101 11111111 00000000" << endl;
+    cout << "Expected byte array : 10101010 01010101 11111111 00000000 10101010 01010101 11111111 00000000 11111111" << endl;
     cout << byteArray4 << endl << endl;
+
+    cout << "----- Byte decode -----" << endl;
+    IntArray decodeArray2 = ByteArray::byteDecode(byteArray4, d);
+    cout << "Taille du tableau d'entiers : " << decodeArray2.getSize() << endl;
+    cout << "Expected int array : 2725, 1535, 10, 2645, 4080, 255" << endl;
+    cout << decodeArray2 << endl << endl;
 
     return 0;
 }
