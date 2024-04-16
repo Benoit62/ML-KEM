@@ -1,6 +1,8 @@
 #include "ByteArray.hpp"
 #include "BitArray.hpp"
 
+#include <cmath>
+
 ByteArray::ByteArray(int size){
     /*if(size % 8 != 0){
         throw std::invalid_argument("Size must be a multiple of 8");
@@ -33,7 +35,7 @@ void ByteArray::add(uint16_t nb, int index){
     this->bytes[index].set(this->bytes[index].get() + nb);
 }
 
-/*static ByteArray ByteArray::bitsToBytes(BitArray& b) {
+ByteArray ByteArray::bitsToBytes(BitArray& b) {
     size_t l = b.getSize() / 8;
     ByteArray bytes(l);
 
@@ -44,7 +46,40 @@ void ByteArray::add(uint16_t nb, int index){
     }
 
     return bytes;
-}*/
+}
+
+ByteArray ByteArray::byteEncode(IntArray& F, uint32_t d) {
+    BitArray b(F.getSize() * d);
+    ByteArray B(F.getSize() * d);
+
+    for (int i = 0; i < F.getSize(); i++) {
+        uint32_t a = F.get(i);
+
+        for (int j = 0; j < d; j++) {
+            b.setBitIndex(i * d + j, (a >> (d - 1 - j)) & 1); // Mettre le bit de poids fort à gauche
+        }
+    }
+
+    B = bitsToBytes(b);
+    return B;
+}
+
+IntArray ByteArray::byteDecode(ByteArray& B, uint32_t d) {
+    BitArray b = BitArray::bytesToBits(B);
+    IntArray F(B.getSize()*d);
+
+    for (int i = 0; i < B.getSize(); i++) {
+        uint32_t sum = 0;
+
+        for (int j = 0; j < d; j++) {
+            sum += b.getIndex(i * d + j) * pow(2, d - 1 - j);
+        }
+
+        F.set(sum % (d < 12 ? 2 * d : static_cast<uint32_t>(pow(2, d))), i);
+    }
+
+    return F;
+}
 
 ostream& operator<<(ostream& os, ByteArray& b){
     for(int i = 0; i < b.getSize(); i++){

@@ -51,15 +51,15 @@ void BitArray::setBitIndex(int index, Bit bit){
     this->bits[index] = bit;
 }
 
-/*static BitArray BitArray::bytesToBits(ByteArray& bytes){
-    size_t l = bytes.getSize();
+BitArray BitArray::bytesToBits(ByteArray& b){
+    size_t l = b.getSize();
     BitArray bits(8 * l);
 
     for (size_t i = 0; i < l; i++) {
         for (size_t j = 0; j < 8; j++) {
-            bits.setBitIndex(8 * i + j, bytes.get()[i].get() >> (7 - j) & 1); 
+            bits.setBitIndex(8 * i + j, b.get()[i].get() >> (7 - j) & 1); 
         }
     }
 
     return bits;
-}*/
+}
