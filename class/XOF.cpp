@@ -2,9 +2,11 @@
 #include <iostream>
 #include <vector>
 #include <cryptopp/shake.h>
+#include "ByteArray.hpp"
 
 using namespace std;
 
+// TODO Test w/ ByteArrays
 class XOF {
 
     private:
@@ -19,9 +21,9 @@ class XOF {
         XOF(vector<uint8_t>& rho, int i, int j);
 
         // Methods
-        vector<uint8_t> init();
+        ByteArray init();
 
-        vector<uint8_t> next();
+        ByteArray next();
 
         // Destructor
         ~XOF();
@@ -45,7 +47,7 @@ XOF::XOF(vector<uint8_t>& rho, int i, int j) {
 
 // Methods
 
-vector<uint8_t> XOF::init() {
+ByteArray XOF::init() {
     CryptoPP::SHAKE128 shake(32);
     vector<uint8_t> digest(32);
     shake.Update(this->inputData.data(), this->inputData.size());
@@ -54,10 +56,12 @@ vector<uint8_t> XOF::init() {
     // Keep the size of the digest in memory
     this->size = digest.size();
 
-    return digest;
+    ByteArray result(digest.size());
+    result.setVec(digest);
+    return result;
 }
 
-vector<uint8_t> XOF::next() {
+ByteArray XOF::next() {
     CryptoPP::SHAKE128 shake(size+3);
     shake.Restart();
     vector<uint8_t> digest(size+3);
@@ -65,7 +69,9 @@ vector<uint8_t> XOF::next() {
     shake.Update(this->inputData.data(), inputData.size());
     shake.Final(digest.data());
 
-    return digest;
+    ByteArray result(digest.size());
+    result.setVec(digest);
+    return result;
 }
 
 //Destructor

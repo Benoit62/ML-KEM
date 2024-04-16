@@ -20,7 +20,9 @@ class ByteArray {
         ~ByteArray();
         vector<Byte> get();
         size_t getSize();
+        vector<uint8_t> getVec();
         void set(vector<Byte> byte);
+        void setVec(vector<uint8_t> byte);
         void add(uint16_t nb, int index);
 
         static ByteArray bitsToBytes(BitArray& b);
