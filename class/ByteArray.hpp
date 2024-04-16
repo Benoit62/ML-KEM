@@ -21,6 +21,7 @@ class ByteArray {
         vector<Byte> get();
         size_t getSize();
         vector<uint8_t> getVec();
+        ByteArray split(uint16_t start, uint16_t end);
         void set(vector<Byte> byte);
         void setVec(vector<uint8_t> byte);
         void add(uint16_t nb, int index);

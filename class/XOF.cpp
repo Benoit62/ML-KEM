@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// TODO Test w/ ByteArrays
 class XOF {
 
     private:
@@ -17,11 +16,13 @@ class XOF {
 
     public:
 
+        vector<uint8_t> digest;
+
         // Constructor
         XOF(vector<uint8_t>& rho, int i, int j);
 
         // Methods
-        ByteArray init();
+        void init();
 
         ByteArray next();
 
@@ -47,7 +48,7 @@ XOF::XOF(vector<uint8_t>& rho, int i, int j) {
 
 // Methods
 
-ByteArray XOF::init() {
+void XOF::init() {
     CryptoPP::SHAKE128 shake(32);
     vector<uint8_t> digest(32);
     shake.Update(this->inputData.data(), this->inputData.size());
@@ -56,9 +57,7 @@ ByteArray XOF::init() {
     // Keep the size of the digest in memory
     this->size = digest.size();
 
-    ByteArray result(digest.size());
-    result.setVec(digest);
-    return result;
+    this->digest=digest;
 }
 
 ByteArray XOF::next() {
@@ -69,9 +68,7 @@ ByteArray XOF::next() {
     shake.Update(this->inputData.data(), inputData.size());
     shake.Final(digest.data());
 
-    ByteArray result(digest.size());
-    result.setVec(digest);
-    return result;
+    this->digest=digest;
 }
 
 //Destructor

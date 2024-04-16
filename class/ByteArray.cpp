@@ -31,6 +31,13 @@ vector<uint8_t> ByteArray::getVec() {
     return result;
 }
 
+ByteArray ByteArray::split(uint16_t start, uint16_t end) {
+    vector<Byte> vec(this->bytes.begin()+start, this->bytes.begin()+end);
+    ByteArray result(vec.size());
+    result.set(vec);
+    return result;
+}
+
 size_t ByteArray::getSize(){
     return this->size;
 }
