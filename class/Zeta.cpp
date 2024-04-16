@@ -1,27 +1,11 @@
 #include <cstdint>
 #include <vector>
-
 #include <iostream>
+#include "../dependencies/headers/constants.hpp"
 
 using namespace std;
 
-
-// Définition des constantes ML-KEM-512 
-const uint16_t q = 3329;
-const uint16_t n = 256;
-const uint16_t zeta = 17;  // pas sûr pour uint16_t, à enlever et calculer dans la class Zeta
-const uint8_t k = 2;
-const uint8_t eta1 = 3;
-const uint8_t eta2 = 2;
-const uint8_t du = 10;
-const uint8_t dv = 4;
-
 typedef long long ll;
-
-
-// const uint16_t q = 3329;
-// const uint16_t n = 8;
-
 
 class Zeta {
 private:
@@ -60,16 +44,28 @@ private:
         return ret; 
     }
 
+    uint16_t find_smallest_primitive_root() {
+        for (uint16_t i = 2; i < q; i++) {
+            if (mod_pow(i, n / 2, q) == q - 1) {
+                return i;
+            }
+        }
+        return q;  // S'il nexiste pas de racine primitive
+    }
+
 
 public:
     // Constructeur
     Zeta() : zetaList(n / 2), gammaList(n / 2) {
         uint8_t numBits = findNumBits();
 
+        uint16_t primitiveRoot = find_smallest_primitive_root();  // Constante noté zeta dans le FIPS
+        // cout << primitiveRoot << endl;
+
         for (uint8_t i = 0; i < n / 2; i++) {
-            zetaList[i] = mod_pow(17, bitRev(i, numBits), q);
-            gammaList[i] = mod_pow(17, 2 * bitRev(i, numBits) + 1, q);
-            cout << zetaList[i] << " " << gammaList[i] << endl;
+            zetaList[i] = mod_pow(primitiveRoot, bitRev(i, numBits), q);
+            gammaList[i] = mod_pow(primitiveRoot, 2 * bitRev(i, numBits) + 1, q);
+            // cout << zetaList[i] << " " << gammaList[i] << endl;
         }
     }
 
@@ -81,8 +77,6 @@ public:
     // Récupère gamma avec l'index i
     uint16_t getGamma(uint8_t i) {
         return gammaList[i];
-    }  
+    }
 };
-
-
 
