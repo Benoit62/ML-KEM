@@ -17,6 +17,7 @@ class ByteArray {
         int size;
     public:
         ByteArray(int size);
+        ByteArray(int size, uint8_t d);
         ~ByteArray();
         vector<Byte> get();
         size_t getSize();
@@ -26,8 +27,8 @@ class ByteArray {
         void add(uint16_t nb, int index);
 
         static ByteArray bitsToBytes(BitArray& b);
-        static ByteArray byteEncode(IntArray& F, uint32_t d);
-        static IntArray byteDecode(ByteArray& B, uint32_t d);
+        static ByteArray byteEncode(IntArray& F, uint8_t d);
+        static IntArray byteDecode(ByteArray& B, uint8_t d);
 
         // Déclaration de la surcharge de l'opérateur <<
         friend ostream& operator<<(ostream& os, ByteArray& b);

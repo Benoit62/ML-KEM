@@ -63,7 +63,7 @@ ByteArray ByteArray::bitsToBytes(BitArray& b) {
     return bytes;
 }
 
-ByteArray ByteArray::byteEncode(IntArray& F, uint32_t d) {
+ByteArray ByteArray::byteEncode(IntArray& F, uint8_t d) {
     BitArray b(F.getSize() * d);
     ByteArray B(F.getSize() * d);
 
@@ -79,7 +79,7 @@ ByteArray ByteArray::byteEncode(IntArray& F, uint32_t d) {
     return B;
 }
 
-IntArray ByteArray::byteDecode(ByteArray& B, uint32_t d) {
+IntArray ByteArray::byteDecode(ByteArray& B, uint8_t d) {
     BitArray b = BitArray::bytesToBits(B);
     IntArray F(B.getSize()+1);
 
