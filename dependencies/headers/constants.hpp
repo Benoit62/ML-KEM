@@ -6,7 +6,6 @@
 // Définition des constantes ML-KEM-512 
 const uint16_t q = 3329;
 const uint16_t n = 256;
-const uint16_t zeta = 17;  // pas sûr pour uint16_t, à enlever et calculer dans la class Zeta
 const uint8_t k = 2;
 const uint8_t eta1 = 3;
 const uint8_t eta2 = 2;
