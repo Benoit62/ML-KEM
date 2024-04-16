@@ -2,6 +2,7 @@
 #include "BitArray.hpp"
 
 #include <cmath>
+#include <bitset>
 
 ByteArray::ByteArray(int size){
     /*if(size % 8 != 0){
@@ -96,8 +97,9 @@ IntArray ByteArray::byteDecode(ByteArray& B, uint32_t d) {
 }
 
 ostream& operator<<(ostream& os, ByteArray& b){
-    for(int i = 0; i < b.getSize(); i++){
-        os << b.get()[i].get() << " ";
+    for (Byte byte : b.get()) {
+        std::bitset<8> bits(byte.get());
+        os << bits << " ";
     }
     return os;
 }

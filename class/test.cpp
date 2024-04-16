@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
-#include <bitset>
 
 using namespace std;
 
@@ -21,20 +20,18 @@ int main(){
     BitArray bitArray(8);
     // Set bit : 0 1 0 1 0 1 0 1
     bitArray.setBitArray({Bit(0), Bit(1), Bit(0), Bit(1), Bit(0), Bit(1), Bit(0), Bit(1)});
+    cout << "Taille du tableau de bits : " << bitArray.getSize() << endl;
+    cout << "Expected bit array : 01010101" << endl;
+    cout << bitArray << endl << endl;
+
+    cout << "----- BitsToBytes -----" << endl;
     // BitsToBytes
     ByteArray byteArray = ByteArray::bitsToBytes(bitArray);
     // Expected byte array : 0b01010101
-    
-    // Print byteArray byteArray
-    vector<Byte> bytes = byteArray.get();
-    cout << bytes.size() << endl;
-    // Print les bits avec bitset
-    for (Byte byte : bytes) {
-        std::bitset<8> bits(byte.get());
-        cout << bits << " ";
-    }
+    cout << "Taille du tableau de bytes : " << byteArray.getSize() << endl;
+    cout << "Expected byte array : 0b01010101" << endl;
+    cout << byteArray << endl << endl;
 
-    cout << endl;
     cout << "----- BytesToBits -----" << endl;
 
     BitArray bitArray2 = BitArray::bytesToBits(byteArray);
