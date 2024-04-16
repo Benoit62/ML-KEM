@@ -88,16 +88,16 @@ ByteArray ByteArray::byteEncode(IntArray& F, uint8_t d) {
 
 IntArray ByteArray::byteDecode(ByteArray& B, uint8_t d) {
     BitArray b = BitArray::bytesToBits(B);
-    IntArray F(B.getSize()+1);
+    IntArray F(B.getSize() * 8 / d);
 
-    for (int i = 0; i < B.getSize(); i++) {
+    for (int i = 0; i < B.getSize() * 8 / d; i++) {
         uint32_t sum = 0;
 
         for (int j = 0; j < d; j++) {
             sum += b.getIndex(i * d + j) * pow(2, d - 1 - j);
         }
 
-        F.set(sum % (d < 12 ? 2 * d : static_cast<uint32_t>(pow(2, d))), i);
+        F.set(sum, i);
     }
 
     return F;
