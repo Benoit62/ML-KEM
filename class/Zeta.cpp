@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
-#include "../dependencies/headers/constants.hpp"
+#include "constants.hpp"
 
 using namespace std;
 

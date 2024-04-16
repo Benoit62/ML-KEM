@@ -1,6 +1,7 @@
 #include "BitArray.cpp"
 #include "ByteArray.cpp"
 #include "IntArray.cpp"
+#include "Zeta.cpp"
 
 #include <iostream>
 #include <vector>
