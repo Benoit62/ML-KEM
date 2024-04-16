@@ -35,6 +35,8 @@ class IntArray {
 
         // Destructor
         ~IntArray();
+
+        friend ostream& operator<<(ostream& os, IntArray& intArr);
 };
 
 // Constructors
@@ -71,4 +73,14 @@ size_t IntArray::getSize() {
 // Destructor
 
 IntArray::~IntArray() {
+}
+
+ostream& operator<<(ostream& os, IntArray& intArr) {
+    for(int i = 0; i < intArr.getSize(); i++) {
+        os << intArr.get(i);
+        if(i < intArr.getSize() - 1) {
+            os << "-";
+        }
+    }
+    return os;
 }

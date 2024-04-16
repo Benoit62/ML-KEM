@@ -43,6 +43,14 @@ void BitArray::addBit(Bit bit){
 ostream& operator<<(ostream& os, BitArray& b){
     for(int i = 0; i < b.getSize(); i++){
         os << b.get()[i].get() ? "1" : "0";
+        if(i % 8 == 7){
+            os << " ";
+        }
+        else {
+            if(i < b.getSize() - 1){
+                os << "-";
+            }
+        }
     }
     return os;
 }
