@@ -1,8 +1,8 @@
 #include "BitArray.cpp"
 #include "ByteArray.cpp"
 #include "IntArray.cpp"
-//#include "XOF.hpp"
-//#include "NTT.cpp"
+#include "XOF.hpp"
+#include "NTT.cpp"
 
 #include <iostream>
 #include <vector>
@@ -14,7 +14,7 @@
 using namespace std;
 
 
-/*void testNTTmatrice(){
+void testNTTmatrice(){
     NTTCoef c0(0);
     NTTCoef c1(1);
     NTTCoef c2(2);
@@ -89,7 +89,7 @@ using namespace std;
             cout << endl << endl;
         }
     }
-}*/
+}
 
 void testBitByteArray(){
     cout << "----- BitArray -----" << endl;
@@ -177,9 +177,9 @@ int main(){
 
     testBitByteArray();
 
-    //testNTTmatrice();
+    testNTTmatrice();
 
-    /*cout << "----- XOF -----" << endl;
+    cout << "----- XOF -----" << endl;
     vector<uint8_t> rho = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
     XOF xof(rho,2,2); xof.init();
     for(int i=0;i<xof.digest.size();i++) cout << static_cast<uint16_t>(xof.digest[i]) << " ";
@@ -187,7 +187,7 @@ int main(){
     for(int i=0;i<xof.digest.size();i++) cout << static_cast<uint16_t>(xof.digest[i]) << " ";
     cout << endl; xof.next();
     for(int i=0;i<xof.digest.size();i++) cout << static_cast<uint16_t>(xof.digest[i]) << " ";
-    cout << endl << endl;*/
+    cout << endl << endl;
 
     return 0;
 }
