@@ -3,9 +3,8 @@
 #include "BitArray.cpp"
 #include "ByteArray.cpp"
 #include "IntArray.cpp"
-#include "NTT.cpp"
-#include "Zeta.cpp"
 #include "XOF.hpp"
+#include "NTT.cpp"
 
 #include <iostream>
 #include <vector>
@@ -79,11 +78,11 @@ void testNTTmatrice(){
         }
     }
 
-    NTTmatrice m3 = m1*m2;
-    cout << endl << "----- NTT matrice 3 = m1*m2-----" << endl;
+    NTTmatrice m3 = m1+m2;
+    cout << endl << "----- Resultat = m1+m2-----" << endl;
     for(int i=0; i<m3.sizeRow(); i++){
         for(int j=0; j<m3.sizeCol(); j++){
-            cout << endl << "NTT matrice 3: " << i << " " << j << endl;
+            cout << endl << "Resultat matrice 3: " << i << " " << j << endl;
             for(int k=0; k<m3.get(i,j).getCoef().size(); k++){
                 if(k<9){
                     cout << m3.get(i,j).getCoef()[k] << " ";
@@ -94,11 +93,8 @@ void testNTTmatrice(){
     }
 }
 
-
-
-int main(){
-
-    /*cout << "----- BitArray -----" << endl;
+void testBitByteArray(){
+    cout << "----- BitArray -----" << endl;
 
     BitArray bitArray(8);
     // Set bit : 0 1 0 1 0 1 0 1
@@ -175,7 +171,13 @@ int main(){
     IntArray decodeArray2 = ByteArray::byteDecode(byteArray4, d);
     cout << "Taille du tableau d'entiers : " << decodeArray2.getSize() << endl;
     cout << "Expected int array : 2725, 1535, 10, 2645, 4080, 255" << endl;
-    cout << decodeArray2 << endl << endl;*/
+    cout << decodeArray2 << endl << endl;
+}
+
+
+int main(){
+
+    testBitByteArray();
 
     testNTTmatrice();
 
