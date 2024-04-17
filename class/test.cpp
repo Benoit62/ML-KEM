@@ -1,5 +1,3 @@
-#pragma once
-
 #include "BitArray.cpp"
 #include "ByteArray.cpp"
 #include "IntArray.cpp"
