@@ -3,7 +3,8 @@
 #include <vector>
 #include <array>
 #include "BitArray.hpp"
-#include "XOF.cpp"
+//#include "XOF.cpp"
+#include "Zeta.cpp"
 
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
@@ -11,7 +12,7 @@
 // Définition des constantes ML-KEM-512 
 const uint16_t q = 3329;
 const uint16_t n = 256;
-const uint16_t zeta = 17;  // pas sûr pour uint16_t, à enlever et calculer dans la class Zeta
+// const uint16_t zeta = 17;  // pas sûr pour uint16_t, à enlever et calculer dans la class Zeta
 const uint8_t k = 2;
 const uint8_t eta1 = 3;
 const uint8_t eta2 = 2;
@@ -19,6 +20,8 @@ const uint8_t du = 10;
 const uint8_t dv = 4;
 
 #endif // CONSTANTS_HPP
+
+
 
 class NTT;
 
@@ -43,6 +46,11 @@ public:
         return *this;
     }
 
+    NTTCoef &operator*=(const uint16_t other){
+        value = static_cast<uint16_t>(static_cast<int64_t>(value) * static_cast<int64_t>(other) % static_cast<int64_t>(q));
+        return *this;
+    }
+
     friend NTTCoef operator+(NTTCoef lhs, const NTTCoef& rhs);
     friend NTTCoef operator-(NTTCoef lhs, const NTTCoef& rhs);
     friend NTTCoef operator*(NTTCoef lhs, const NTTCoef& rhs);
@@ -64,6 +72,11 @@ NTTCoef operator-(NTTCoef lhs, const NTTCoef& rhs) {
 }
 
 NTTCoef operator*(NTTCoef lhs, const NTTCoef& rhs) {
+    lhs *= rhs;
+    return lhs;
+}
+
+NTTCoef operator*(NTTCoef lhs, const uint16_t rhs) {
     lhs *= rhs;
     return lhs;
 }
@@ -128,29 +141,29 @@ std::ostream& operator<<(std::ostream& os, const PolyCoef& coef) {
 class NTT {
 public:
 
-    NTT();
-    template <std::size_t n>
-    NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
-        std::array<uint32_t, N> f_hat = f;
+    NTT() {}
+    // template <std::size_t n>
+    // NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
+    //     std::array<uint32_t, N> f_hat = f;
 
-        uint32_t k = 1;
+    //     uint32_t k = 1;
 
-        for (uint32_t len = 128; len >= 2; len /= 2) {
-            for (uint32_t start = 0; start < N; start += 2 * len) {
-                uint32_t zeta = mod_pow(17, BitRev7(k), q);
-                zetas[k] = zeta;
-                k++;
+    //     for (uint32_t len = 128; len >= 2; len /= 2) {
+    //         for (uint32_t start = 0; start < N; start += 2 * len) {
+    //             uint32_t zeta = mod_pow(17, BitRev7(k), q);
+    //             zetas[k] = zeta;
+    //             k++;
 
-                for (uint32_t j = start; j < start + len; j++) {
-                    int64_t t = static_cast<int64_t>(zeta) * static_cast<int64_t>(f_hat[j + len]);
-                    f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
-                    f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
-                }
-            }
-        }
+    //             for (uint32_t j = start; j < start + len; j++) {
+    //                 int64_t t = static_cast<int64_t>(zeta) * static_cast<int64_t>(f_hat[j + len]);
+    //                 f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
+    //                 f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
+    //             }
+    //         }
+    //     }
 
-        coefficients = f_hat;
-    }
+    //     coefficients = f_hat;
+    // }
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -160,34 +173,70 @@ public:
         coefficients[i] = coef;
     }
 
-    static NTT SampleNTT(const XOF B) {
-        std::vector<uint32_t> a;
-        uint32_t i = 0;
-        uint32_t j = 0;
-        uint32_t d1, d2;
+    // static NTT SampleNTT(const XOF B) {
+    //     std::vector<uint32_t> a;
+    //     uint32_t i = 0;
+    //     uint32_t j = 0;
+    //     uint32_t d1, d2;
 
-        while (j < 256) {
-            d1 = B.digest[i] + 256 * (B.digest[i + 1] % 16);
-            d2 = static_cast<int>(floor(B.digest[i + 1] / 16.0)) + 16 * B.digest[i + 2];
+    //     while (j < 256) {
+    //         d1 = B.digest[i] + 256 * (B.digest[i + 1] % 16);
+    //         d2 = static_cast<int>(floor(B.digest[i + 1] / 16.0)) + 16 * B.digest[i + 2];
 
-            if (d1 < q) {
-                a.push_back(d1);
-                j++;
-            }
+    //         if (d1 < q) {
+    //             a.push_back(d1);
+    //             j++;
+    //         }
 
-            if (d2 < q && j < 256) {
-                a.push_back(d2);
-                j++;
-            }
-            i += 3;
-        }
+    //         if (d2 < q && j < 256) {
+    //             a.push_back(d2);
+    //             j++;
+    //         }
+    //         i += 3;
+    //     }
 
-        return a;
+    //     return a;
+    // }
+
+    NTT operator*(const NTT& rhs) {
+        NTT h = MultiplyNTTs(*this, rhs);
+        return h;
     }
 
 private:
     std::array<NTTCoef, n> coefficients;
-    const std::size_t maxSize = n;
+    // const std::size_t maxSize = n;
+
+    NTT MultiplyNTTs(const NTT &f, const NTT &g)
+    {
+        NTT h;
+
+        Zeta primitiveRoot;
+
+            NTTCoef c0;
+            NTTCoef c1;
+
+        for (uint16_t i = 0; i < n / 2; i++)
+        {
+            NTTCoef a0 = f.get(2 * i);
+            NTTCoef a1 = f.get(2 * i + 1);
+            NTTCoef b0 = g.get(2 * i);
+            NTTCoef b1 = g.get(2 * i + 1);
+
+            uint16_t gamma = primitiveRoot.getGamma(i);  // TODO
+            BaseCaseMultiply(a0, a1, b0, b1, c0, c1, gamma);
+
+            h.set(2 * i, c0);
+            h.set(2 * i + 1, c1);
+        }
+        return h;
+    }
+
+    void BaseCaseMultiply(const NTTCoef a0, const NTTCoef a1, const NTTCoef b0, const NTTCoef b1, NTTCoef& c0, NTTCoef& c1, const uint16_t gamma)
+    {
+        c0 = a0 * b0 + a1 * b1 * gamma;
+        c1 = a0 * b1 + a1 * b0;
+    }
 };
 
 
@@ -198,31 +247,31 @@ public:
     Poly();
 
     template <std::size_t n>
-    Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
-        std::array<PolyCoef, n> f = f_hat;
+    // Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
+    //     std::array<PolyCoef, n> f = f_hat;
 
-        uint32_t k = 127;
+    //     uint32_t k = 127;
 
-        for (uint32_t len = 2; len <= 128; len <<= 1) {
-            for (uint32_t start = 0; start < 256; start += 2 * len) {
-                ll zeta = mod_pow(static_cast<ll>(zetas[k]), 1, q);
-                k--;
+    //     for (uint32_t len = 2; len <= 128; len <<= 1) {
+    //         for (uint32_t start = 0; start < 256; start += 2 * len) {
+    //             ll zeta = mod_pow(static_cast<ll>(zetas[k]), 1, q);
+    //             k--;
 
-                for (uint32_t j = start; j < start + len; j++) {
-                    NTTCoef t = f[j];
-                    NTTCoef tmp1 = (f[j] + f[j + len]) % q;
-                    f[j] = (tmp1 + q) % q;
-                    NTTCoef tmp2 = (zeta * (f[j + len] - t)) % q;
-                    f[j + len] = (tmp2 + q) % q;
-                }
-            }
-        }
+    //             for (uint32_t j = start; j < start + len; j++) {
+    //                 NTTCoef t = f[j];
+    //                 NTTCoef tmp1 = (f[j] + f[j + len]) % q;
+    //                 f[j] = (tmp1 + q) % q;
+    //                 NTTCoef tmp2 = (zeta * (f[j + len] - t)) % q;
+    //                 f[j + len] = (tmp2 + q) % q;
+    //             }
+    //         }
+    //     }
 
-        for (NTTCoef& x : f) {
-            x = (x * 3303) % q;
-        }
-        coefficients = f;
-    }
+    //     for (NTTCoef& x : f) {
+    //         x = (x * 3303) % q;
+    //     }
+    //     coefficients = f;
+    // }
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -254,7 +303,7 @@ public:
 private:
 
     std::array<NTTCoef, n> coefficients;
-    const std::size_t maxSize = n;
+    // const std::size_t maxSize = n;
 };
 
 
@@ -350,3 +399,4 @@ public:
         return res;
     }
 };
+
