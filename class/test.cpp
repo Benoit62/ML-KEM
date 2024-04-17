@@ -141,7 +141,7 @@ void testBitByteArray(){
     IntArray decodeArray = ByteArray::byteDecode(byteArray3, d);
     //cout << "Taille du tableau d'entiers : " << decodeArray.getSize() << endl;
     cout << "Expected int array : 15 3" << endl;
-    cout << "IntArray" << decodeArray << endl << endl;
+    cout << "IntArray : " << decodeArray << endl << endl;
 
     ByteArray singleBlock(9);
     singleBlock.set({0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b00001111});
