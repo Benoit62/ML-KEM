@@ -7,11 +7,12 @@ using namespace std;
 
 typedef long long ll;
 
+vector<uint16_t> zetaList(n / 2);
+vector<uint16_t> gammaList(n / 2);
+
+
 class Zeta {
 private:
-
-    vector<uint16_t> zetaList;
-    vector<uint16_t> gammaList;
 
     // Calcul le nombre de bits utilisés dans BitRev
     uint8_t findNumBits() {
@@ -34,7 +35,7 @@ private:
         return reversedOctet;
     }
 
-    ll mod_pow(ll a, ll n, ll mod) { 
+    uint16_t mod_pow(ll a, ll n, ll mod) { 
         ll ret = 1; ll p = a % mod; 
         while (n) { 
             if (n & 1) ret = ret * p % mod; 
@@ -44,7 +45,7 @@ private:
         return ret; 
     }
 
-    uint16_t find_smallest_primitive_root() {
+    uint16_t findSmallestPrimitiveRoot() {
         for (uint16_t i = 2; i < q; i++) {
             if (mod_pow(i, n / 2, q) == q - 1) {
                 return i;
@@ -56,10 +57,10 @@ private:
 
 public:
     // Constructeur
-    Zeta() : zetaList(n / 2), gammaList(n / 2) {
+    Zeta() {
         uint8_t numBits = findNumBits();
 
-        uint16_t primitiveRoot = find_smallest_primitive_root();  // Constante noté zeta dans le FIPS
+        uint16_t primitiveRoot = findSmallestPrimitiveRoot();  // Constante noté zeta dans le FIPS
         // cout << primitiveRoot << endl;
 
         for (uint8_t i = 0; i < n / 2; i++) {
@@ -70,13 +71,12 @@ public:
     }
 
     // Récupère gamma avec l'index i
-    uint16_t getZeta(uint8_t i) {
+    uint16_t getZeta(uint16_t i) {
         return zetaList[i];
     }
 
     // Récupère gamma avec l'index i
-    uint16_t getGamma(uint8_t i) {
+    uint16_t getGamma(uint16_t i) {
         return gammaList[i];
     }
 };
-
