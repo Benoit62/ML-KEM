@@ -3,7 +3,6 @@
 #include <vector>
 #include <array>
 #include "BitArray.hpp"
-#include "XOF.cpp"
 
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
@@ -128,9 +127,10 @@ std::ostream& operator<<(std::ostream& os, const PolyCoef& coef) {
 class NTT {
 public:
 
-    NTT();
+    NTT(){};
+
     template <std::size_t n>
-    NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
+    /*NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
         std::array<uint32_t, n> f_hat = f;
 
         uint32_t k = 1;
@@ -150,9 +150,7 @@ public:
         }
 
         coefficients = f_hat;
-    }
-
-    NTT(){}; // Constructor vide
+    }*/
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -162,7 +160,7 @@ public:
         coefficients[i] = coef;
     }
 
-    static NTT SampleNTT(const XOF B) {
+    /*static NTT SampleNTT(const XOF B) {
         std::vector<uint32_t> a;
         uint32_t i = 0;
         uint32_t j = 0;
@@ -185,7 +183,7 @@ public:
         }
 
         return a;
-    }
+    }*/
 
     // Get tab coefficients
     std::array<NTTCoef, n> getCoef()
@@ -201,6 +199,24 @@ public:
         return *this;
     }
 
+    NTT &operator*(const NTT &other)
+    {
+        for (int i = 0; i < coefficients.size(); i++)
+        {
+            this->coefficients[i] = coefficients[i] * other.coefficients[i];
+        }
+        return *this;
+    }
+
+    NTT &operator+(const NTT &other)
+    {
+        for (int i = 0; i < coefficients.size(); i++)
+        {
+            this->coefficients[i] = coefficients[i] + other.coefficients[i];
+        }
+        return *this;
+    }
+
 private:
     std::array<NTTCoef, n> coefficients;
     std::size_t maxSize = n;
@@ -211,7 +227,7 @@ private:
 class Poly {
 public:
 
-    Poly();
+    Poly(){};
 
     template <std::size_t n>
     /*Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
@@ -280,6 +296,24 @@ public:
         return *this;
     }
 
+    Poly &operator*(const Poly &other)
+    {
+        for (int i = 0; i < coefficients.size(); i++)
+        {
+            this->coefficients[i] = coefficients[i] * other.coefficients[i];
+        }
+        return *this;
+    }
+
+    Poly &operator+(const Poly &other)
+    {
+        for (int i = 0; i < coefficients.size(); i++)
+        {
+            this->coefficients[i] = coefficients[i] + other.coefficients[i];
+        }
+        return *this;
+    }
+
 private:
 
     std::array<NTTCoef, n> coefficients;
@@ -316,9 +350,9 @@ class PolyMatrice {
         }
 
         // getter valeur i,j
-        std::array<NTTCoef, n> get(int i, int j)
+        Poly get(int i, int j)
         {
-            return matrice[i][j].getCoef();
+            return matrice[i][j];
         }
 
         size_t sizeRow()
@@ -338,11 +372,7 @@ class PolyMatrice {
             {
                 for (int j = 0; j < matrice[i].size(); j++)
                 {
-                    Poly sumPoly;
-                    for(int k=0; k < matrice[i][j].getCoef().size(); k++){
-                        sumPoly.set(k, matrice[i][j].getCoef()[k] + m.get(i, j)[k]);
-                    }
-                    res.set(i, j, sumPoly);
+                    res.set(i, j, matrice[i][j] + m.get(i, j));
                 }
             }
             return res;
@@ -357,20 +387,11 @@ class PolyMatrice {
             }
 
             PolyMatrice res;
-            for (int i = 0; i < matrice.size(); i++)
+            for (int i = 0; i < matrice.size(); i++) // On parcourt les lignes de la matrice
             {
-                for (int j = 0; j < matrice[i].size(); j++)
+                for (int j = 0; j < matrice[i].size(); j++) // On parcourt les colonnes de la matrice
                 {
-                    Poly sumPoly;
-                    for(int k=0; k < matrice[i][j].getCoef().size(); k++){
-                        NTTCoef sum = 0;
-                        for (int l = 0; l < matrice.size(); l++)
-                        {
-                            sum += matrice[i][l].getCoef()[k] * m.get(l, j)[k];
-                        }
-                        sumPoly.set(k, sum);
-                    }
-                    res.set(i, j, sumPoly);
+                    res.set(i, j, matrice[i][j] * m.get(i, j));
                 }
             }
             return res;
@@ -419,9 +440,9 @@ public:
     }
 
     // getter valeur i,j
-    std::array<NTTCoef, n> get(int i, int j)
+    NTT get(int i, int j)
     {
-        return matrice[i][j].getCoef();
+        return matrice[i][j];
     }
 
     size_t sizeRow()
@@ -437,11 +458,7 @@ public:
         {
             for (int j = 0; j < matrice[i].size(); j++)
             {
-                NTT sumNTT;
-                for(int k=0; k < matrice[i][j].getCoef().size(); k++){
-                    sumNTT.set(k, matrice[i][j].getCoef()[k] + m.get(i, j)[k]);
-                }
-                res.set(i, j, sumNTT);
+                res.set(i, j, matrice[i][j] + m.get(i, j));
             }
         }
         return res;
@@ -461,16 +478,7 @@ public:
         {
             for (int j = 0; j < matrice[i].size(); j++)
             {
-                NTT sumPoly;
-                for(int k=0; k < matrice[i][j].getCoef().size(); k++){
-                    NTTCoef sum = 0;
-                    for (int l = 0; l < matrice.size(); l++)
-                    {
-                        sum += matrice[i][l].getCoef()[k] * m.get(l, j)[k];
-                    }
-                    sumPoly.set(k, sum);
-                }
-                res.set(i, j, sumPoly);
+                res.set(i, j, matrice[i][j] * m.getRow(j)[i]);
             }
         }
         return res;
