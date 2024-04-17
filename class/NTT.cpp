@@ -127,6 +127,8 @@ std::ostream& operator<<(std::ostream& os, const PolyCoef& coef) {
 //template <typename PolyCoef>
 class NTT {
 public:
+
+    NTT();
     template <std::size_t n>
     NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
         std::array<uint32_t, N> f_hat = f;
@@ -165,8 +167,8 @@ public:
         uint32_t d1, d2;
 
         while (j < 256) {
-            d1 = B.digest.get()[i] + 256 * (B.digest.get()[i + 1] % 16);
-            d2 = static_cast<int>(floor(B.digest.get()[i + 1] / 16.0)) + 16 * B.digest.get()[i + 2];
+            d1 = B.digest[i] + 256 * (B.digest[i + 1] % 16);
+            d2 = static_cast<int>(floor(B.digest[i + 1] / 16.0)) + 16 * B.digest[i + 2];
 
             if (d1 < q) {
                 a.push_back(d1);
