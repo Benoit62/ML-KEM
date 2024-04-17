@@ -4,7 +4,7 @@
 #include <array>
 #include "BitArray.hpp"
 #include "Zeta.cpp"
-#include "XOF.cpp"
+#include "XOF.hpp"
 
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
