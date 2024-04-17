@@ -95,11 +95,6 @@ void testNTTmatrice(){
 
 void testBitByteArray(){
     cout << "----- BitArray -----" << endl;
-}
-
-/*
-int main(){
-    cout << "----- BitArray -----" << endl;
 
     BitArray bitArray(8);
     // Set bit : 0 1 0 1 0 1 0 1
@@ -170,7 +165,7 @@ int main(){
     cout << "Taille du tableau d'entiers : " << decodeArray2.getSize() << endl;
     cout << "Expected int array : 2725, 1535, 10, 2645, 4080, 255" << endl;
     cout << decodeArray2 << endl << endl;
-*/
+}
 
 int main() {
 
