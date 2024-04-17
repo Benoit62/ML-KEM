@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include "BitArray.hpp"
+#include "Zeta.cpp"
 #include "XOF.cpp"
 
 #ifndef CONSTANTS_HPP
