@@ -50,7 +50,7 @@ public:
         return *this;
     }
 
-     PolyCoef& operator%=(const PolyCoef& other) {
+    NTTCoef& operator%=(const NTTCoef& other) {
         value = static_cast<uint32_t>(static_cast<int64_t>(value) % static_cast<int64_t>(other.value));
         return *this;
     }
@@ -170,12 +170,12 @@ public:
          uint32_t k = 1;
 
          for (uint32_t len = 128; len >= 2; len /= 2) {
-             for (uint32_t start = 0; start < N; start += 2 * len) {
+             for (uint32_t start = 0; start < n; start += 2 * len) {
 
                  k++;
 
                  for (uint32_t j = start; j < start + len; j++) {
-                     int64_t t = static_cast<int64_t>(Zeta.getZeta(k)) * static_cast<int64_t>(f_hat[j + len]);
+                     int64_t t = static_cast<int64_t>(zetaList[k]) * static_cast<int64_t>(f_hat[j + len]);
                      f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
                      f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
                  }
@@ -307,7 +307,7 @@ public:
                      NTTCoef t = f[j];
                      NTTCoef tmp1 = (f[j] + f[j + len]) % q;
                      f[j] = (tmp1 + q) % q;
-                     NTTCoef tmp2 = (Zeta.getZeta(k) * (f[j + len] - t)) % q;
+                     NTTCoef tmp2 = (zetaList[k] * (f[j + len] - t)) % q;
                      f[j + len] = (tmp2 + q) % q;
                  }
              }
