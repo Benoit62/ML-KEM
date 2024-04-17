@@ -201,6 +201,12 @@ public:
         return coefficients;
     }
 
+    // Set coef
+    void setCoef(std::array<NTTCoef, n> coef)
+    {
+        coefficients = coef;
+    }
+
     // Surcharge = pour Poly
     NTT& operator=(const NTT& other)
     {
@@ -329,15 +335,6 @@ public:
         return *this;
     }
 
-    Poly& operator*(const Poly& other)
-    {
-        for (int i = 0; i < coefficients.size(); i++)
-        {
-            this->coefficients[i] = coefficients[i] * other.coefficients[i];
-        }
-        return *this;
-    }
-
     Poly& operator+(const Poly& other)
     {
         for (int i = 0; i < coefficients.size(); i++)
@@ -409,25 +406,6 @@ class PolyMatrice {
             }
             return res;
         }
-
-        PolyMatrice operator*(PolyMatrice &m)
-        {
-            if (matrice[0].size() != m.sizeRow())
-            {
-                std::cout << "Multiplication impossible" << std::endl;
-                return *this;
-            }
-
-            PolyMatrice res;
-            for (int i = 0; i < matrice.size(); i++) // On parcourt les lignes de la matrice
-            {
-                for (int j = 0; j < matrice[i].size(); j++) // On parcourt les colonnes de la matrice
-                {
-                    res.set(i, j, matrice[i][j] * m.get(i, j));
-                }
-            }
-            return res;
-        }
 };
 
 
@@ -482,6 +460,11 @@ public:
         return matrice.size();
     }
 
+    size_t sizeCol()
+    {
+        return matrice[0].size();
+    }
+
     // surchage de l'addition de 2 matrices
     NTTmatrice operator+(NTTmatrice &m)
     {
@@ -506,14 +489,22 @@ public:
         }
 
         NTTmatrice res;
-        for (int i = 0; i < matrice.size(); i++)
+        for (int i = 0; i < matrice.size(); i++) // On parcourt les lignes de la matrice
         {
-            for (int j = 0; j < matrice[i].size(); j++)
+            for (int j = 0; j < matrice[i].size(); j++) // On parcourt les colonnes de la matrice
             {
-                res.set(i, j, matrice[i][j] * m.getRow(j)[i]);
+                NTT sum;
+                for (int k = 0; k < matrice[i].size(); k++) // 
+                {
+                    std::cout << "m1( " << i << " , " << k << " ) * m2( " << k << " , " << j << " )" << std::endl;
+                    sum = sum + matrice[i][k] * m.get(k, j);
+                }
+                std::cout << "res( " << i << " , " << j << " )" << std::endl;
+                res.set(i, j, sum);
             }
         }
         return res;
     }
+    
 };
 
