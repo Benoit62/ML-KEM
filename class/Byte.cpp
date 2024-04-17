@@ -1,15 +1,4 @@
-#include <iostream>
-#include <cstdint>
-
-class Byte {
-    private:
-        uint8_t byte;
-    public:
-        Byte(uint8_t byte);
-        ~Byte();
-        uint8_t get();
-        void set(uint8_t byte);
-};
+#include "Byte.hpp"
 
 Byte::Byte(uint8_t byte){
     this->byte = byte;

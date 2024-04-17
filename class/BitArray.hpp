@@ -1,6 +1,10 @@
 #pragma once
 
-#include "Bit.cpp"
+#ifndef BITARRAY_HPP
+#define BITARRAY_HPP
+
+#include "Bit.hpp"
+#include "ByteArray.hpp"
 
 #include <iostream>
 #include <vector>
@@ -30,3 +34,5 @@ class BitArray {
         // Déclaration de la surcharge de l'opérateur <<
         friend ostream& operator<<(ostream& os, BitArray& b);
 };
+
+#endif

@@ -1,11 +1,17 @@
 #pragma once
 
-#include "Byte.cpp"
-#include "IntArray.cpp"
+#ifndef BYTEARRAY_HPP
+#define BYTEARRAY_HPP
+
+#include "Byte.hpp"
+#include "BitArray.hpp"
+#include "IntArray.hpp"
 
 #include <iostream>
 #include <vector>
 #include <cstdint>
+#include <cmath>
+#include <bitset>
 
 class BitArray;
 
@@ -34,3 +40,5 @@ class ByteArray {
         // Déclaration de la surcharge de l'opérateur <<
         friend ostream& operator<<(ostream& os, ByteArray& b);
 };
+
+#endif
