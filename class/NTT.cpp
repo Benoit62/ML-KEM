@@ -50,6 +50,12 @@ public:
         return *this;
     }
 
+     PolyCoef& operator%=(const PolyCoef& other) {
+        value = static_cast<uint32_t>(static_cast<int64_t>(value) % static_cast<int64_t>(other.value));
+        return *this;
+    }
+
+    friend NTTCoef operator%(NTTCoef lhs, const NTTCoef& rhs);
     friend NTTCoef operator+(NTTCoef lhs, const NTTCoef& rhs);
     friend NTTCoef operator-(NTTCoef lhs, const NTTCoef& rhs);
     friend NTTCoef operator*(NTTCoef lhs, const NTTCoef& rhs);
@@ -80,6 +86,11 @@ NTTCoef operator*(NTTCoef lhs, const uint16_t rhs) {
     return lhs;
 }
 
+NTTCoef operator%(NTTCoef lhs, const NTTCoef& rhs) {
+    lhs %= rhs;
+    return lhs;
+}
+
 std::ostream& operator<<(std::ostream& os, const NTTCoef& coef) {
     os << coef.value;
     return os;
@@ -105,6 +116,12 @@ public:
         return *this;
     }
 
+    PolyCoef& operator%=(const PolyCoef& other) {
+       value = static_cast<uint32_t>(static_cast<int64_t>(value) % static_cast<int64_t>(other.value));
+       return *this;
+    }
+
+    friend PolyCoef operator%(PolyCoef lhs, const PolyCoef& rhs);
     friend PolyCoef operator+(PolyCoef lhs, const PolyCoef& rhs);
     friend PolyCoef operator-(PolyCoef lhs, const PolyCoef& rhs);
     friend PolyCoef operator*(PolyCoef lhs, const PolyCoef& rhs);
@@ -127,6 +144,11 @@ PolyCoef operator-(PolyCoef lhs, const PolyCoef& rhs) {
 
 PolyCoef operator*(PolyCoef lhs, const PolyCoef& rhs) {
     lhs *= rhs;
+    return lhs;
+}
+
+PolyCoef operator%(PolyCoef lhs, const PolyCoef& rhs) {
+    lhs %= rhs;
     return lhs;
 }
 
