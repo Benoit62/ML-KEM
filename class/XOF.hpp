@@ -1,5 +1,7 @@
-#ifndef XOF_CPP
-#define XOF_CPP
+#pragma once
+
+#ifndef XOF_HPP
+#define XOF_HPP
 
 #include <cstdint>
 #include <iostream>

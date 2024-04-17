@@ -1,8 +1,4 @@
 #include "ByteArray.hpp"
-#include "BitArray.hpp"
-
-#include <cmath>
-#include <bitset>
 
 ByteArray::ByteArray(int size){
     /*if(size % 8 != 0){
