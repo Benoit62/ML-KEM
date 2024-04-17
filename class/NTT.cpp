@@ -135,34 +135,32 @@ std::ostream& operator<<(std::ostream& os, const PolyCoef& coef) {
 }
 
 
-//template <typename PolyCoef>
 class NTT {
 public:
 
-    NTT(){};
+    NTT() {};
 
     template <std::size_t n>
-    /*NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
+    NTT(const Poly& f) {
         std::array<uint32_t, n> f_hat = f;
 
-    //     uint32_t k = 1;
+         uint32_t k = 1;
 
-    //     for (uint32_t len = 128; len >= 2; len /= 2) {
-    //         for (uint32_t start = 0; start < N; start += 2 * len) {
-    //             uint32_t zeta = mod_pow(17, BitRev7(k), q);
-    //             zetas[k] = zeta;
-    //             k++;
+         for (uint32_t len = 128; len >= 2; len /= 2) {
+             for (uint32_t start = 0; start < N; start += 2 * len) {
 
-    //             for (uint32_t j = start; j < start + len; j++) {
-    //                 int64_t t = static_cast<int64_t>(zeta) * static_cast<int64_t>(f_hat[j + len]);
-    //                 f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
-    //                 f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
-    //             }
-    //         }
-    //     }
+                 k++;
+
+                 for (uint32_t j = start; j < start + len; j++) {
+                     int64_t t = static_cast<int64_t>(Zeta.getZeta(k)) * static_cast<int64_t>(f_hat[j + len]);
+                     f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
+                     f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
+                 }
+             }
+         }
 
         coefficients = f_hat;
-    }*/
+    }
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -172,30 +170,30 @@ public:
         coefficients[i] = coef;
     }
 
-    /*static NTT SampleNTT(const XOF B) {
-        std::vector<uint32_t> a;
+    static NTT SampleNTT(const XOF B) {
+        NTT a;
         uint32_t i = 0;
         uint32_t j = 0;
         uint32_t d1, d2;
 
-    //     while (j < 256) {
-    //         d1 = B.digest[i] + 256 * (B.digest[i + 1] % 16);
-    //         d2 = static_cast<int>(floor(B.digest[i + 1] / 16.0)) + 16 * B.digest[i + 2];
+         while (j < 256) {
+             d1 = B.digest[i] + 256 * (B.digest[i + 1] % 16);
+             d2 = static_cast<int>(floor(B.digest[i + 1] / 16.0)) + 16 * B.digest[i + 2];
 
-    //         if (d1 < q) {
-    //             a.push_back(d1);
-    //             j++;
-    //         }
+             if (d1 < q) {
+                 a.set(j, d1);
+                 j++;
+             }
 
-    //         if (d2 < q && j < 256) {
-    //             a.push_back(d2);
-    //             j++;
-    //         }
-    //         i += 3;
-    //     }
+             if (d2 < q && j < 256) {
+                 a.set(j, d2);
+                 j++;
+             }
+             i += 3;
+         }
 
         return a;
-    }*/
+    }
 
     // Get tab coefficients
     std::array<NTTCoef, n> getCoef()
@@ -204,14 +202,13 @@ public:
     }
 
     // Surcharge = pour Poly
-    NTT &operator=(const NTT &other)
+    NTT& operator=(const NTT& other)
     {
         coefficients = other.coefficients;
-        maxSize = other.maxSize;
         return *this;
     }
 
-    NTT &operator*(const NTT &other)
+    NTT& operator*(const NTT& other)
     {
         for (int i = 0; i < coefficients.size(); i++)
         {
@@ -220,7 +217,7 @@ public:
         return *this;
     }
 
-    NTT &operator+(const NTT &other)
+    NTT& operator+(const NTT& other)
     {
         for (int i = 0; i < coefficients.size(); i++)
         {
@@ -231,9 +228,8 @@ public:
 
 private:
     std::array<NTTCoef, n> coefficients;
-    // const std::size_t maxSize = n;
 
-    NTT MultiplyNTTs(const NTT &f, const NTT &g)
+    NTT MultiplyNTTs(const NTT& f, const NTT& g)
     {
         NTT h;
         NTTCoef c0;
@@ -262,38 +258,37 @@ private:
 };
 
 
-//template <typename CoefType>
 class Poly {
 public:
 
-    Poly(){};
+    Poly() {};
 
     template <std::size_t n>
-    /*Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
+    Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
         std::array<PolyCoef, n> f = f_hat;
 
-    //     uint32_t k = 127;
+         uint32_t k = 127;
 
-    //     for (uint32_t len = 2; len <= 128; len <<= 1) {
-    //         for (uint32_t start = 0; start < 256; start += 2 * len) {
-    //             ll zeta = mod_pow(static_cast<ll>(zetas[k]), 1, q);
-    //             k--;
+         for (uint32_t len = 2; len <= 128; len <<= 1) {
+             for (uint32_t start = 0; start < 256; start += 2 * len) {
 
-    //             for (uint32_t j = start; j < start + len; j++) {
-    //                 NTTCoef t = f[j];
-    //                 NTTCoef tmp1 = (f[j] + f[j + len]) % q;
-    //                 f[j] = (tmp1 + q) % q;
-    //                 NTTCoef tmp2 = (zeta * (f[j + len] - t)) % q;
-    //                 f[j + len] = (tmp2 + q) % q;
-    //             }
-    //         }
-    //     }
+                 k--;
+
+                 for (uint32_t j = start; j < start + len; j++) {
+                     NTTCoef t = f[j];
+                     NTTCoef tmp1 = (f[j] + f[j + len]) % q;
+                     f[j] = (tmp1 + q) % q;
+                     NTTCoef tmp2 = (Zeta.getZeta(k) * (f[j + len] - t)) % q;
+                     f[j + len] = (tmp2 + q) % q;
+                 }
+             }
+         }
 
         for (NTTCoef& x : f) {
             x = (x * 3303) % q;
         }
         coefficients = f;
-    }*/
+    }
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -307,16 +302,16 @@ public:
         BitArray b = 0;     /// bytesToBits(B);
         Poly f;
 
-            for (int i = 0; i < 256; i++) {
-                uint32_t x = 0;
-                uint32_t y = 0;
+        for (int i = 0; i < 256; i++) {
+            uint32_t x = 0;
+            uint32_t y = 0;
 
-                for (int j = 0; j < eta; j++) {
-                    x += b.getIndex(2 * i * eta + j);
-                    y += b.getIndex(2 * i * eta + eta + j);
-                }
+            for (int j = 0; j < eta; j++) {
+                x += b.getIndex(2 * i * eta + j);
+                y += b.getIndex(2 * i * eta + eta + j);
+            }
 
-                f.set(i, (x - y + q) % q);
+            f.set(i, (x - y + q) % q);
         }
         return f;
     }
@@ -328,14 +323,13 @@ public:
     }
 
     // Surcharge = pour Poly
-    Poly &operator=(const Poly &other)
+    Poly& operator=(const Poly& other)
     {
         coefficients = other.coefficients;
-        maxSize = other.maxSize;
         return *this;
     }
 
-    Poly &operator*(const Poly &other)
+    Poly& operator*(const Poly& other)
     {
         for (int i = 0; i < coefficients.size(); i++)
         {
@@ -344,7 +338,7 @@ public:
         return *this;
     }
 
-    Poly &operator+(const Poly &other)
+    Poly& operator+(const Poly& other)
     {
         for (int i = 0; i < coefficients.size(); i++)
         {
@@ -356,7 +350,6 @@ public:
 private:
 
     std::array<NTTCoef, n> coefficients;
-    std::size_t maxSize = n;
 };
 
 class PolyMatrice {
