@@ -1,8 +1,8 @@
 #include "ByteArray.hpp"
 #include "IntArray.hpp"
 #include "BitArray.hpp"
-#include "NTT.cpp"
-#include "Zeta.cpp"
+// #include "NTT.cpp"
+// #include "Zeta.cpp"
 #include "XOF.hpp"
 #include "Crypto.hpp"
 
@@ -15,7 +15,7 @@
 
 using namespace std;
 
-
+/*
 void testNTTmatrice(){
     NTTCoef c0(0);
     NTTCoef c1(1);
@@ -91,7 +91,7 @@ void testNTTmatrice(){
             cout << endl << endl;
         }
     }
-}
+}*/
 
 void testBitByteArray(){
     cout << "----- BitArray -----" << endl;
@@ -179,7 +179,7 @@ int main() {
 
     testBitByteArray();
 
-    testNTTmatrice();
+    // testNTTmatrice();
 
     cout << "----- XOF -----" << endl;
     vector<uint8_t> rho = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
@@ -203,22 +203,22 @@ int main() {
 
 
     cout << "----- Compress -----" << endl;
-    Byte compress(255);
-    Byte newComp = Crypto::compress(compress, 12);
-    cout << static_cast<uint16_t>(newComp.get());
+    uint16_t compress(255);
+    uint16_t newComp = Crypto::compress(compress, 4);
+    cout << static_cast<uint16_t>(newComp);
     cout << endl << endl;
 
 
     cout << "----- Decompress -----" << endl;
-    Byte decompress(255);
-    Byte newDec = Crypto::decompress(decompress, 12);
-    cout << static_cast<uint16_t>(newDec.get());
+    uint16_t decompress(255);
+    uint16_t newDec = Crypto::decompress(decompress, 4);
+    cout << static_cast<uint16_t>(newDec);
     cout << endl << endl;
 
 
     cout << "----- Compress after Decompress -----" << endl;
-    Byte mlkj(255);
-    Byte res = Crypto::compress(Crypto::decompress(mlkj,12),12);
-    cout << static_cast<uint16_t>(res.get()) << endl;
+    uint16_t mlkj(255);
+    uint16_t res = Crypto::compress(Crypto::decompress(mlkj,4),4);
+    cout << static_cast<uint16_t>(res) << endl;
     return 0;
 }

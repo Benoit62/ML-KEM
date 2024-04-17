@@ -21,8 +21,8 @@ class Crypto {
     static ByteArray J(ByteArray s);
     static ByteArray PRF(ByteArray s, uint16_t b, uint16_t eta);
     static vector<uint8_t> generateRandomBytes(uint32_t numBytes);
-    static Byte compress(Byte y, uint16_t d);
-    static Byte decompress(Byte x, uint16_t d);
+    static uint16_t compress(uint16_t y, uint16_t d);
+    static uint16_t decompress(uint16_t x, uint16_t d);
 };
 
 #endif

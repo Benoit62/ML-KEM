@@ -71,6 +71,6 @@ vector<uint8_t> Crypto::generateRandomBytes(uint32_t numBytes) {
     return randomBytes;
 }
 
-Byte Crypto::compress(Byte x, uint16_t d) { return round(pow(2,d)/q*x.get()); }
+uint16_t Crypto::compress(uint16_t x, uint16_t d) { return x>>d; }
 
-Byte Crypto::decompress(Byte x, uint16_t d) { return round(q/pow(2,d)*x.get()); }
+uint16_t Crypto::decompress(uint16_t x, uint16_t d) { return x<<d; }
