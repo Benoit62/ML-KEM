@@ -1,38 +1,6 @@
-#include <cstdint>
-#include <iostream>
-#include <vector>
-#include <cryptopp/shake.h>
-#include "ByteArray.hpp"
-
-using namespace std;
-
-class XOF {
-
-    private:
-
-        // Attributes
-        vector<uint8_t> inputData;
-        int size;
-
-    public:
-
-        vector<uint8_t> digest;
-
-        // Constructor
-        XOF(vector<uint8_t>& rho, int i, int j);
-
-        // Methods
-        void init();
-
-        void next();
-
-        // Destructor
-        ~XOF();
-
-};
+#include "XOF.hpp"
 
 // Constructor
-
 XOF::XOF(vector<uint8_t>& rho, int i, int j) {
     // Convert integers to byte arrays
     vector<uint8_t> iBytes(sizeof(uint32_t));
@@ -47,7 +15,6 @@ XOF::XOF(vector<uint8_t>& rho, int i, int j) {
 }
 
 // Methods
-
 void XOF::init() {
     CryptoPP::SHAKE128 shake(32);
     vector<uint8_t> digest(32);
@@ -56,7 +23,6 @@ void XOF::init() {
 
     // Keep the size of the digest in memory
     this->size = digest.size();
-
     this->digest=digest;
 }
 
@@ -64,14 +30,11 @@ void XOF::next() {
     CryptoPP::SHAKE128 shake(size+3);
     shake.Restart();
     vector<uint8_t> digest(size+3);
-    this->size+=3;
     shake.Update(this->inputData.data(), inputData.size());
     shake.Final(digest.data());
 
+    this->size+=3;
     this->digest=digest;
 }
 
-//Destructor
-
-XOF::~XOF() {
-}
+XOF::~XOF() {}
