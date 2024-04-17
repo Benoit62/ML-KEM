@@ -327,8 +327,8 @@ public:
         coefficients[i] = coef;
     }
 
-    static Poly SamplePolyCBD_eta(const Poly& B, uint32_t eta, uint32_t q) {
-        BitArray b = 0;     /// bytesToBits(B);
+    static Poly SamplePolyCBD_eta(const ByteArray& B, uint32_t eta, uint32_t q) {
+        BitArray b = bytesToBits(B);
         Poly f;
 
         for (int i = 0; i < 256; i++) {
