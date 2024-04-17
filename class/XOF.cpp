@@ -24,7 +24,7 @@ class XOF {
         // Methods
         void init();
 
-        ByteArray next();
+        void next();
 
         // Destructor
         ~XOF();
@@ -60,7 +60,7 @@ void XOF::init() {
     this->digest=digest;
 }
 
-ByteArray XOF::next() {
+void XOF::next() {
     CryptoPP::SHAKE128 shake(size+3);
     shake.Restart();
     vector<uint8_t> digest(size+3);
