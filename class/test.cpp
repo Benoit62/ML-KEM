@@ -69,11 +69,10 @@ int main(){
     cout << "Expected byte array : 10101010 01010101 11111111 00000000 10101010 01010101 11111111 00000000 00001111" << endl;
     cout << singleBlock << endl << endl;
     
-    IntArray singleArray = ByteArray::byteDecode(singleBlock, 4);
+    IntArray singleArray = ByteArray::byteDecode(singleBlock, 8);
     cout << "Taille du tableau d'entiers : " << singleArray.getSize() << endl;
     cout << "Expected int array : 10, 5, 15, 0, 10, 5, 15, 0, 15" << endl;
     cout << singleArray << endl << endl;
-    
     
 
     cout << "----- IntArray -----" << endl;
