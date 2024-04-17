@@ -131,7 +131,7 @@ public:
     NTT();
     template <std::size_t n>
     NTT(const Poly& f, const std::array<uint16_t, 128>& zetas) {
-        std::array<uint32_t, N> f_hat = f;
+        std::array<uint32_t, n> f_hat = f;
 
         uint32_t k = 1;
 
@@ -151,6 +151,8 @@ public:
 
         coefficients = f_hat;
     }
+
+    NTT(){}; // Constructor vide
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -185,9 +187,23 @@ public:
         return a;
     }
 
+    // Get tab coefficients
+    std::array<NTTCoef, n> getCoef()
+    {
+        return coefficients;
+    }
+
+    // Surcharge = pour Poly
+    NTT &operator=(const NTT &other)
+    {
+        coefficients = other.coefficients;
+        maxSize = other.maxSize;
+        return *this;
+    }
+
 private:
     std::array<NTTCoef, n> coefficients;
-    const std::size_t maxSize = n;
+    std::size_t maxSize = n;
 };
 
 
@@ -198,7 +214,7 @@ public:
     Poly();
 
     template <std::size_t n>
-    Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
+    /*Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
         std::array<PolyCoef, n> f = f_hat;
 
         uint32_t k = 127;
@@ -222,7 +238,7 @@ public:
             x = (x * 3303) % q;
         }
         coefficients = f;
-    }
+    }*/
 
     NTTCoef get(std::size_t i) const {
         return coefficients[i];
@@ -250,32 +266,135 @@ public:
         return f;
     }
 
+    // Get tab coefficients
+    std::array<NTTCoef, n> getCoef()
+    {
+        return coefficients;
+    }
+
+    // Surcharge = pour Poly
+    Poly &operator=(const Poly &other)
+    {
+        coefficients = other.coefficients;
+        maxSize = other.maxSize;
+        return *this;
+    }
 
 private:
 
     std::array<NTTCoef, n> coefficients;
-    const std::size_t maxSize = n;
+    std::size_t maxSize = n;
 };
 
+class PolyMatrice {
+    private:
+        std::vector<std::vector<Poly>> matrice;
+
+    public:
+        PolyMatrice() {}  // Constructor
+        ~PolyMatrice() {} // Destructor
+
+        void set(int i, int j, Poly value)
+        {
+            if (i < matrice.size())
+            {
+                if (j < matrice[i].size())
+                {
+                    matrice[i][j] = value;
+                }
+                else
+                {
+                    matrice[i].push_back(value);
+                }
+            }
+            else
+            {
+                std::vector<Poly> v;
+                v.push_back(value);
+                matrice.push_back(v);
+            }
+        }
+
+        // getter valeur i,j
+        std::array<NTTCoef, n> get(int i, int j)
+        {
+            return matrice[i][j].getCoef();
+        }
+
+        size_t sizeRow()
+        {
+            return matrice.size();
+        }
+
+        size_t sizeColumn()
+        {
+            return matrice[0].size();
+        }
+
+        PolyMatrice operator+(PolyMatrice &m)
+        {
+            PolyMatrice res;
+            for (int i = 0; i < matrice.size(); i++)
+            {
+                for (int j = 0; j < matrice[i].size(); j++)
+                {
+                    Poly sumPoly;
+                    for(int k=0; k < matrice[i][j].getCoef().size(); k++){
+                        sumPoly.set(k, matrice[i][j].getCoef()[k] + m.get(i, j)[k]);
+                    }
+                    res.set(i, j, sumPoly);
+                }
+            }
+            return res;
+        }
+
+        PolyMatrice operator*(PolyMatrice &m)
+        {
+            if (matrice[0].size() != m.sizeRow())
+            {
+                std::cout << "Multiplication impossible" << std::endl;
+                return *this;
+            }
+
+            PolyMatrice res;
+            for (int i = 0; i < matrice.size(); i++)
+            {
+                for (int j = 0; j < matrice[i].size(); j++)
+                {
+                    Poly sumPoly;
+                    for(int k=0; k < matrice[i][j].getCoef().size(); k++){
+                        NTTCoef sum = 0;
+                        for (int l = 0; l < matrice.size(); l++)
+                        {
+                            sum += matrice[i][l].getCoef()[k] * m.get(l, j)[k];
+                        }
+                        sumPoly.set(k, sum);
+                    }
+                    res.set(i, j, sumPoly);
+                }
+            }
+            return res;
+        }
+};
 
 
 class NTTmatrice
 {
 
 private:
-    std::vector<std::vector<NTTCoef>> matrice;
+    std::vector<std::vector<NTT>> matrice;
 
 public:
     NTTmatrice() {}  // Constructor
     ~NTTmatrice() {} // Destructor
 
-    std::vector<NTTCoef> getRow(int i)
+    std::vector<NTT> getRow(int i)
     {
         return matrice[i];
     }
 
     // setter valeur i,j
-    void set(int i, int j, NTTCoef value)
+    void set(int i, int j, NTT value)
     {
         // On vérifie si i est inférieur à la taille de la matrice
         // Si inférieur, on le met à l'index sinon on push_back
@@ -293,19 +412,19 @@ public:
         }
         else
         {
-            std::vector<NTTCoef> v;
+            std::vector<NTT> v;
             v.push_back(value);
             matrice.push_back(v);
         }
     }
 
     // getter valeur i,j
-    NTTCoef get(int i, int j)
+    std::array<NTTCoef, n> get(int i, int j)
     {
-        return matrice[i][j];
+        return matrice[i][j].getCoef();
     }
 
-    size_t size()
+    size_t sizeRow()
     {
         return matrice.size();
     }
@@ -318,7 +437,11 @@ public:
         {
             for (int j = 0; j < matrice[i].size(); j++)
             {
-                res.set(i, j, matrice[i][j] + m.get(i, j));
+                NTT sumNTT;
+                for(int k=0; k < matrice[i][j].getCoef().size(); k++){
+                    sumNTT.set(k, matrice[i][j].getCoef()[k] + m.get(i, j)[k]);
+                }
+                res.set(i, j, sumNTT);
             }
         }
         return res;
@@ -327,8 +450,7 @@ public:
     // surchage de la multiplication de 2 matrices
     NTTmatrice operator*(NTTmatrice &m)
     {
-        // Vérification si la multiplication est possible les colonnes de la premiere matrice doit etre egale aux lignes de la 2e
-        if (matrice[0].size() != m.size())
+        if (matrice[0].size() != m.sizeRow())
         {
             std::cout << "Multiplication impossible" << std::endl;
             return *this;
@@ -339,12 +461,16 @@ public:
         {
             for (int j = 0; j < matrice[i].size(); j++)
             {
-                NTTCoef sum = 0;
-                for (int k = 0; k < matrice.size(); k++)
-                {
-                    sum += matrice[i][k] * m.get(k, j);
+                NTT sumPoly;
+                for(int k=0; k < matrice[i][j].getCoef().size(); k++){
+                    NTTCoef sum = 0;
+                    for (int l = 0; l < matrice.size(); l++)
+                    {
+                        sum += matrice[i][l].getCoef()[k] * m.get(l, j)[k];
+                    }
+                    sumPoly.set(k, sum);
                 }
-                res.set(i, j, sum);
+                res.set(i, j, sumPoly);
             }
         }
         return res;
