@@ -14,7 +14,6 @@ class KPKE {
     static pair<ByteArray, ByteArray> KeyGen();
     static ByteArray Encrypt(ByteArray ek_pke, ByteArray message, ByteArray r);
     static ByteArray Decrypt(ByteArray dk_pke, ByteArray c);
-
 };
 
 pair<ByteArray, ByteArray> KPKE::KeyGen() {
@@ -23,11 +22,9 @@ pair<ByteArray, ByteArray> KPKE::KeyGen() {
     rho = tmp.first; sigma = tmp.second;
     uint16_t N=0;
     // TODO declare matrix here
-    for(int i=0;i<k;i++) {
-        for(int j=0;j<k;j++) {
-            // fill A_hat matrix
-        }
-    }
+    for(int i=0;i<k;i++) { for(int j=0;j<k;j++) {
+        // fill A_hat matrix
+    }}
 }
 
 ByteArray KPKE::Encrypt(ByteArray ek_pke, ByteArray message, ByteArray r) {
@@ -36,15 +33,17 @@ ByteArray KPKE::Encrypt(ByteArray ek_pke, ByteArray message, ByteArray r) {
     IntArray t_hat = ByteArray::byteDecode(e, 12);
     ByteArray rho = ek_pke.split(384*k,384*k+32);
     // declare matrix here
-    for(int i=0;i<k;i++) {
-        for(int j=0;j<k;j++) {
-            // fill A_hat matrix
-        }
-    }
+    for(int i=0;i<k;i++) { for(int j=0;j<k;j++) {
+        // fill A_hat matrix
+    }}
 }
 
-ByteArray Decrypt(ByteArray dk_pke, ByteArray c) {
+ByteArray KPKE::Decrypt(ByteArray dk_pke, ByteArray c) {
     ByteArray c1 = c.split(0,32*du*k);
     ByteArray c2 = c.split(32*du*k,32*(du*k+dv));
-    // TODO make compress & decompress func
+    ByteArray u(c1.getSize());
+    for(int i=0;i<c1.getSize();i++) { u.get()[i] = Crypto::decompress(ByteArray::byteDecode(c1, du).get()[i], du); }
+    ByteArray v(c2.getSize());
+    for(int i=0;i<c2.getSize();i++) { v.get()[i] = Crypto::decompress(ByteArray::byteDecode(c2, dv).get()[i], dv); }
+    IntArray s_hat = ByteArray::byteDecode(dk_pke, 12);
 }

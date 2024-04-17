@@ -11,15 +11,12 @@ using namespace std;
 class Crypto {
     public:
     static pair<ByteArray, ByteArray> G(vector<uint8_t> c);
-
     static ByteArray H(ByteArray s);
-
     static ByteArray J(ByteArray s);
-
     static ByteArray PRF(ByteArray s, uint16_t b, uint16_t eta);
-
     static vector<uint8_t> generateRandomBytes(uint32_t numBytes);
-
+    static Byte compress(Byte y, uint16_t d);
+    static Byte decompress(Byte x, uint16_t d);
 };
 
 pair<ByteArray, ByteArray> Crypto::G(vector<uint8_t> c) {
@@ -95,3 +92,7 @@ vector<uint8_t> Crypto::generateRandomBytes(uint32_t numBytes) {
     }
     return randomBytes;
 }
+
+Byte Crypto::compress(Byte x, uint16_t d) { Byte res(static_cast<uint8_t>(floor(pow(2,d)/q*x.get()))); }
+
+Byte Crypto::decompress(Byte x, uint16_t d) { Byte res(static_cast<uint8_t>(floor(q/pow(2,d)*x.get()))); }
