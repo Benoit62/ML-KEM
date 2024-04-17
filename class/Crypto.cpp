@@ -60,7 +60,6 @@ ByteArray Crypto::J(ByteArray s) {
 
 ByteArray Crypto::PRF(ByteArray s, uint16_t b, uint16_t eta) {
     CryptoPP::SHAKE256 shake;
-
     vector<uint8_t> input(s.getVec().begin(), s.getVec().end());
     vector<uint8_t> bBytes(sizeof(uint32_t));
     memcpy(bBytes.data(), &b, sizeof(uint32_t));
@@ -78,21 +77,19 @@ ByteArray Crypto::PRF(ByteArray s, uint16_t b, uint16_t eta) {
 vector<uint8_t> Crypto::generateRandomBytes(uint32_t numBytes) {
     // Create a seed sequence using a true random source (e.g., /dev/urandom on Unix-like systems)
     random_device rd;
-
     // Create a random engine using the seed sequence
     mt19937_64 engine(rd());
-
     // Create a uniform distribution for generating random bytes
     uniform_int_distribution<uint8_t> dist(0, numeric_limits<uint8_t>::max());
-
     // Generate and store the random bytes
     vector<uint8_t> randomBytes(numBytes);
     for (size_t i = 0; i < numBytes; i++) {
         randomBytes[i] = dist(engine);
     }
+    
     return randomBytes;
 }
 
-Byte Crypto::compress(Byte x, uint16_t d) { Byte res(static_cast<uint8_t>(floor(pow(2,d)/q*x.get()))); }
+Byte Crypto::compress(Byte x, uint16_t d) {  Byte res(static_cast<uint8_t>(floor(pow(2,d)/q*x.get()))); return res; }
 
-Byte Crypto::decompress(Byte x, uint16_t d) { Byte res(static_cast<uint8_t>(floor(q/pow(2,d)*x.get()))); }
+Byte Crypto::decompress(Byte x, uint16_t d) {  Byte res(static_cast<uint8_t>(floor(q/pow(2,d)*x.get()))); return res; }
