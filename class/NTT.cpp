@@ -28,7 +28,11 @@ class Poly;
 
 class NTTCoef {
 public:
-    NTTCoef(uint32_t value = 0) : value(value% q) {}
+    NTTCoef(uint16_t value = 0) : value(value% q) {}
+
+    explicit operator uint16_t() const {
+        return value;
+    }
 
     NTTCoef& operator+=(const NTTCoef& other) {
         value = (value + other.value) % q;
@@ -41,18 +45,22 @@ public:
     }
 
     NTTCoef& operator*=(const NTTCoef& other) {
-        value = static_cast<uint32_t>(static_cast<int64_t>(value) * static_cast<int64_t>(other.value) % q);
+        value = static_cast<uint16_t>(static_cast<int32_t>(value) * static_cast<int32_t>(other.value) % q);
         return *this;
     }
 
-    NTTCoef &operator*=(const uint16_t other){
-        value = static_cast<uint16_t>(static_cast<int64_t>(value) * static_cast<int64_t>(other) % static_cast<int64_t>(q));
+    NTTCoef& operator*=(const uint16_t other) {
+        value = static_cast<uint16_t>(static_cast<int32_t>(value) * static_cast<int32_t>(other) % static_cast<int32_t>(q));
         return *this;
     }
 
     NTTCoef& operator%=(const NTTCoef& other) {
-        value = static_cast<uint32_t>(static_cast<int64_t>(value) % static_cast<int64_t>(other.value));
+        value = static_cast<uint16_t>(static_cast<int32_t>(value) % static_cast<int32_t>(other.value));
         return *this;
+    }
+
+    bool operator==(const NTTCoef& other) const {
+        return value == other.value;
     }
 
     friend NTTCoef operator%(NTTCoef lhs, const NTTCoef& rhs);
@@ -63,7 +71,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const NTTCoef& coef);
 
 private:
-    uint32_t value;
+    uint16_t value;
 };
 
 NTTCoef operator+(NTTCoef lhs, const NTTCoef& rhs) {
@@ -99,7 +107,7 @@ std::ostream& operator<<(std::ostream& os, const NTTCoef& coef) {
 
 class PolyCoef {
 public:
-    PolyCoef(uint32_t value = 0) : value(value% q) {}
+    PolyCoef(uint16_t value = 0) : value(value% q) {}
 
     PolyCoef& operator+=(const PolyCoef& other) {
         value = (value + other.value) % q;
@@ -112,24 +120,26 @@ public:
     }
 
     PolyCoef& operator*=(const PolyCoef& other) {
-        value = static_cast<uint32_t>(static_cast<int64_t>(value) * static_cast<int64_t>(other.value) % q);
+        value = static_cast<uint16_t>(static_cast<int32_t>(value) * static_cast<int32_t>(other.value) % q);
         return *this;
     }
 
     PolyCoef& operator%=(const PolyCoef& other) {
-       value = static_cast<uint32_t>(static_cast<int64_t>(value) % static_cast<int64_t>(other.value));
-       return *this;
+        value = static_cast<uint16_t>(static_cast<int32_t>(value) % static_cast<int32_t>(other.value));
+        return *this;
     }
 
-    friend PolyCoef operator%(PolyCoef lhs, const PolyCoef& rhs);
+    
+
     friend PolyCoef operator+(PolyCoef lhs, const PolyCoef& rhs);
     friend PolyCoef operator-(PolyCoef lhs, const PolyCoef& rhs);
     friend PolyCoef operator*(PolyCoef lhs, const PolyCoef& rhs);
+    friend PolyCoef operator%(PolyCoef lhs, const PolyCoef& rhs);
 
     friend std::ostream& operator<<(std::ostream& os, const PolyCoef& coef);
 
 private:
-    uint32_t value;
+    uint16_t value;
 };
 
 PolyCoef operator+(PolyCoef lhs, const PolyCoef& rhs) {
@@ -165,24 +175,48 @@ public:
 
     template <std::size_t n>
     NTT(const Poly& f) {
-        std::array<uint32_t, n> f_hat = f;
+        std::array<uint16_t, n> f_hat = f;
 
-         uint32_t k = 1;
+         uint16_t k = 1;
 
-         for (uint32_t len = 128; len >= 2; len /= 2) {
-             for (uint32_t start = 0; start < n; start += 2 * len) {
+         for (uint16_t len = 128; len >= 2; len /= 2) {
+             for (uint16_t start = 0; start < N; start += 2 * len) {
 
                  k++;
 
-                 for (uint32_t j = start; j < start + len; j++) {
-                     int64_t t = static_cast<int64_t>(zetaList[k]) * static_cast<int64_t>(f_hat[j + len]);
-                     f_hat[j + len] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) - t % q + q) % q);
-                     f_hat[j] = static_cast<uint32_t>((static_cast<int64_t>(f_hat[j]) + t % q) % q);
+                 for (uint16_t j = start; j < start + len; j++) {
+                     int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
+                     f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
+                     f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
                  }
              }
          }
 
         coefficients = f_hat;
+    }
+
+    NTT(const std::array<NTTCoef, n>& input) {
+        std::array<uint16_t, n> f_hat = {};
+        for (size_t i = 0; i < n; i++) {
+            f_hat[i] = static_cast<uint16_t>(input[i]);
+        }
+
+        uint16_t k = 1;
+        for (uint16_t len = 128; len >= 2; len /= 2) {
+            for (uint16_t start = 0; start < n; start += 2 * len) {
+                k++;
+                for (uint16_t j = start; j < start + len; j++) {
+                    int32_t t = static_cast<int32_t>(zetaList[k]) * static_cast<int32_t>(f_hat[j + len]);
+                    f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
+                    f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
+                }
+            }
+        }
+
+        //coefficients = f_hat;
+        for (size_t i = 0; i < n; i++) {
+            coefficients[i] = f_hat[i];
+        }
     }
 
     NTTCoef get(std::size_t i) const {
@@ -224,13 +258,7 @@ public:
         return coefficients;
     }
 
-    // Set coef
-    void setCoef(std::array<NTTCoef, n> coef)
-    {
-        coefficients = coef;
-    }
-
-    // Surcharge = pour Poly
+    // Surcharge = pour NTT
     NTT& operator=(const NTT& other)
     {
         coefficients = other.coefficients;
@@ -253,6 +281,21 @@ public:
             this->coefficients[i] = coefficients[i] + other.coefficients[i];
         }
         return *this;
+    }
+
+    static void testNTT() {
+        // Générer un tableau de valeurs aléatoires
+        std::array<NTTCoef, n> input;
+        for (auto& x : input) {
+            x = NTTCoef(rand() % q);
+        }
+        // Créer l'objet NTT à partir du tableau
+        NTT ntt(input);
+        // Vérifier que la transformation est correcte
+        for (size_t i = 0; i < n; i++) {
+            assert(ntt.get(i) == input[i]);
+        }
+        std::cout << "Test NTT réussi !" << std::endl;
     }
 
 private:
