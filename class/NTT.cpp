@@ -336,17 +336,19 @@ public:
     Poly() {};
 
     template <std::size_t n>
-    Poly(const NTT& f_hat, const std::array<uint16_t, 128>& zetas) {
+    Poly(const NTT& f_hat) {
         std::array<PolyCoef, n> f = f_hat;
 
-         uint32_t k = 127;
+         uint16_t k = 127;
 
-         for (uint32_t len = 2; len <= 128; len <<= 1) {
-             for (uint32_t start = 0; start < 256; start += 2 * len) {
+         for (uint16_t len = 2; len <= 128; len <<= 1) {
+             for (uint16_t start = 0; start < 256; start += 2 * len) {
 
                  k--;
 
-                 for (uint32_t j = start; j < start + len; j++) {
+                 for (uint16_t j = start; j < start + len; j++) {
+                    //équivalent au pseudo-code
+                    //pour éviter les dépassement en mémoire
                      NTTCoef t = f[j];
                      NTTCoef tmp1 = (f[j] + f[j + len]) % q;
                      f[j] = (tmp1 + q) % q;
