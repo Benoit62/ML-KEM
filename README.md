@@ -36,5 +36,4 @@ Example with g++ : ```g++-11 Bit.cpp BitArray.cpp Byte.cpp ByteArray.cpp Crypto.
 
 ## Documentation
 
-Ce dossier reprend l'ensemble des fonctions définies dans le [FIPS 203](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf)
-*Coming soon...*
+Ce dossier reprend l'ensemble des fonctions définies dans le [FIPS 203](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf), à l'exception des fonctions K-PKE et de l'encapsulation avec ML-KEM. L'ensemble des fonctions auxilliaires ont été écrites de façon à être le plus modulable possible et mises sous forme de classe pour respecter le pseudo-code au mieux possible. Le code a été pensé pour faciliter le plus possible l'implémentation future des fonctions K-PKE et ML-KEM.
