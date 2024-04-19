@@ -4,17 +4,17 @@
 #include "ByteArray.hpp"
 #include "IntArray.hpp"
 #include "BitArray.hpp"
-#include "NTT.cpp"
-#include "Zeta.cpp"
+#include "../class/NTT.cpp"
+#include "../class/Zeta.cpp"
 #include "XOF.hpp"
 #include "Crypto.hpp"
 
+#include <cassert>
+#include <cmath>
 #include <iostream>
 #include <vector>
 #include <cstdint>
 #include <algorithm>
-#include <cassert>
-#include <cmath>
 
 using namespace std;
 

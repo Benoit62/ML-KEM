@@ -1,4 +1,4 @@
-#include "test.hpp"
+#include "../headers/test.hpp"
 
 void testNTTmatrice(){
     NTTCoef c0(0);

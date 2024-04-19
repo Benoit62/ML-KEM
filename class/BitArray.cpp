@@ -1,4 +1,4 @@
-#include "BitArray.hpp"
+#include "../headers/BitArray.hpp"
 
 BitArray::BitArray(int size){
     if(size % 8 != 0){

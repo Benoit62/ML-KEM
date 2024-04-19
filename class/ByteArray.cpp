@@ -1,4 +1,4 @@
-#include "ByteArray.hpp"
+#include "../headers/ByteArray.hpp"
 
 ByteArray::ByteArray(int size){
     /*if(size % 8 != 0){

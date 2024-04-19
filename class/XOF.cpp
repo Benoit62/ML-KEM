@@ -1,4 +1,4 @@
-#include "XOF.hpp"
+#include "../headers/XOF.hpp"
 
 // Constructor
 XOF::XOF(vector<uint8_t>& rho, int i, int j) {

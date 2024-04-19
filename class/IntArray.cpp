@@ -1,4 +1,4 @@
-#include "IntArray.hpp"
+#include "../headers/IntArray.hpp"
 
 // Constructors
 IntArray::IntArray() : data(MAX_SIZE, 0){}

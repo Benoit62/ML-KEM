@@ -1,5 +1,5 @@
 #include <iostream>
-#include "class/test.hpp"
+#include "headers/test.hpp"
 
 using namespace std;
 

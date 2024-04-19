@@ -1,10 +1,12 @@
 #include <cstdint>
+#include <cassert>
 #include <iostream>
 #include <vector>
 #include <array>
-#include "BitArray.hpp"
+#include "../headers/BitArray.hpp"
+#include "../headers/ByteArray.hpp"
 #include "Zeta.cpp"
-#include "XOF.hpp"
+#include "../headers/XOF.hpp"
 
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
@@ -373,7 +375,8 @@ public:
     }
 
     static Poly SamplePolyCBD_eta(const ByteArray& B, uint32_t eta, uint32_t q) {
-        BitArray b = bytesToBits(B);
+        ByteArray BB = B;
+        BitArray b = BitArray::bytesToBits(BB);
         Poly f;
 
         for (int i = 0; i < 256; i++) {
@@ -475,7 +478,6 @@ class PolyMatrice {
             return res;
         }
 };
-
 
 class NTTmatrice
 {

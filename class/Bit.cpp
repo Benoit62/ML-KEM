@@ -1,4 +1,4 @@
-#include "Bit.hpp"
+#include "../headers/Bit.hpp"
 
 void Bit::reverse(){
     // Reverse

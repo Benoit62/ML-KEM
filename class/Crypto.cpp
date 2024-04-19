@@ -1,4 +1,4 @@
-#include "Crypto.hpp"
+#include "../headers/Crypto.hpp"
 
 pair<ByteArray, ByteArray> Crypto::G(vector<uint8_t> c) {
     CryptoPP::SHA3_512 hash;

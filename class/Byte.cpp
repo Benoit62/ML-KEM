@@ -1,4 +1,4 @@
-#include "Byte.hpp"
+#include "../headers/Byte.hpp"
 
 Byte::Byte(uint8_t byte){
     this->byte = byte;
