@@ -39,6 +39,7 @@
         coefficients[i] = coef;
     }
 
+    // /!\ Pas besoin de q en paramètre car il est déjà défini de manière globale
     Poly Poly::SamplePolyCBD_eta(const ByteArray& B, uint32_t eta, uint32_t q) {
         ByteArray BB = B;
         BitArray b = BitArray::bytesToBits(BB);
