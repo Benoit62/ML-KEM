@@ -14,8 +14,6 @@ C++ implentation of the post-quantum key establishment scheme ML-KEM
 
 ## Deployment
 
-### C++ Development Environment Setup
-
 This guide will help you set up and run the project
 
 #### Prerequisites
