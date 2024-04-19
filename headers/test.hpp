@@ -6,6 +6,8 @@
 #include "BitArray.hpp"
 #include "../class/NTT.cpp"
 #include "../class/Zeta.cpp"
+#include "../class/NTTmatrice.cpp"
+#include "../class/PolyMatrice.cpp"
 #include "XOF.hpp"
 #include "Crypto.hpp"
 

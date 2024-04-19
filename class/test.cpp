@@ -11,18 +11,12 @@ void testNTTmatrice(){
     NTTCoef c7(7);
     NTTCoef c8(8);
     
-    NTT ntt1;
-    ntt1.setCoef({c0, c1, c2, c3, c4, c5, c6, c7, c8});
-    NTT ntt2;
-    ntt2.setCoef({c8, c7, c6, c5, c4, c3, c2, c1, c0});
-    NTT ntt3;
-    ntt3.setCoef({c1, c1, c1, c1, c2, c2, c2, c2, c2});
-    NTT ntt4;
-    ntt4.setCoef({c3, c3, c3, c3, c4, c4, c4, c4, c4});
-    NTT ntt5;
-    ntt5.setCoef({c1, c1, c1, c1, c1, c1, c1, c1, c1});
-    NTT ntt6;
-    ntt6.setCoef({c2, c2, c2, c2, c2, c2, c2, c2, c2});
+    NTT ntt1({c0, c1, c2, c3, c4, c5, c6, c7, c8});
+    NTT ntt2({c8, c7, c6, c5, c4, c3, c2, c1, c0});
+    NTT ntt3({c1, c1, c1, c1, c2, c2, c2, c2, c2});
+    NTT ntt4({c3, c3, c3, c3, c4, c4, c4, c4, c4});
+    NTT ntt5({c1, c1, c1, c1, c1, c1, c1, c1, c1});
+    NTT ntt6({c2, c2, c2, c2, c2, c2, c2, c2, c2});
 
     NTTmatrice m1;
     m1.set(0,0,ntt5);
@@ -62,8 +56,8 @@ void testNTTmatrice(){
         }
     }
 
-    NTTmatrice m3 = m1*m2;
-    cout << endl << "----- NTT matrice 3 = m1*m2-----" << endl;
+    NTTmatrice m3 = m1+m2;
+    cout << endl << "----- NTT matrice 3 = m1+m2-----" << endl;
     for(int i=0; i<m3.sizeRow(); i++){
         for(int j=0; j<m3.sizeCol(); j++){
             cout << endl << "NTT matrice 3: " << i << " " << j << endl;
