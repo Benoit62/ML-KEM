@@ -10,7 +10,8 @@ C++ implentation of the post-quantum key establishment scheme ML-KEM
 - [@Hamza Berbache](https://www.github.com/Hamz11)
 - [@Louis Landouzy](https://www.github.com/LouisLandouzy)
 - [@Enzo Barea](https://www.github.com/Ximaere)
-
+- [@Clément Gorse](https://www.github.com/clementgorse)
+- [@Rémi Protin](https://www.github.com/Remiprotin)
 
 ## Deployment
 
@@ -24,7 +25,8 @@ Before you begin, make sure you have the following installed on your system:
 
 [comment]: <> (- Visual Studio Code: [Download and install VSCode](https://code.visualstudio.com/))
 
-### Instaling project and library
+
+### Installing project and library
 
 #### Compiling and Running the project
 
