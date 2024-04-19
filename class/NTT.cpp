@@ -269,11 +269,8 @@ public:
 
     NTT& operator*(const NTT& other)
     {
-        for (int i = 0; i < coefficients.size(); i++)
-        {
-            this->coefficients[i] = coefficients[i] * other.coefficients[i];
-        }
-        return *this;
+        NTT h = MultiplyNTTs(*this, other);
+        return h;
     }
 
     NTT& operator+(const NTT& other)
