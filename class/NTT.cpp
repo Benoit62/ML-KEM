@@ -107,6 +107,7 @@
         return *this;
     }
 
+    // Mettre directement le code de MultiplyNTTs ici ?
     NTT& NTT::operator*(const NTT& other)
     {
         NTT h = MultiplyNTTs(*this, other);
@@ -122,6 +123,8 @@
         return *this;
     }
 
+    // Utilité d'une méthode de test dans la classe ? C'est la seule dans le projet à faire ceci
+    // Tests imcomplets, il faudrait tester plus de cas ou changer le nom de la méthode
     void NTT::testNTT() {
         // Générer un tableau de valeurs aléatoires
         std::array<NTTCoef, n> input;
@@ -158,6 +161,7 @@
         return h;
     }
 
+    // Devrait être en privé ?
     void NTT::BaseCaseMultiply(const NTTCoef a0, const NTTCoef a1, const NTTCoef b0, const NTTCoef b1, NTTCoef& c0, NTTCoef& c1, const uint16_t gamma)
     {
         c0 = a0 * b0 + a1 * b1 * gamma;
