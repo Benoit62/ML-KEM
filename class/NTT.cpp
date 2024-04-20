@@ -16,6 +16,8 @@
 
     template <std::size_t n>
     NTT::NTT(const Poly& f) {
+        // Pourquoi de pas avoir rempli directement l'attribut coefficients avec les coeffs de input ?
+        // A la limite passer par un IntArray ou un array de PolyCoef
         std::array<uint16_t, n> f_hat = f;
 
         uint16_t k = 1;
@@ -27,6 +29,10 @@
 
                 for (uint16_t j = start; j < start + len; j++) {
                     int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
+                    // Voir si les modulos sont nécessaires, déjà fait dans les surcharges d'opérateurs
+                    // Pourquoi des cast en int32_t alors qu'il faut utiliser les surcharges ????????????????
+                    // Pourquoi avoir cast les coef de l'input au lieux de les laisser en COEF ?????
+                    // On perd toute l'utilité de la classe NTTCoef et de ses surcharges
                     f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
                     f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
                 }
@@ -38,8 +44,7 @@
 
     template <std::size_t n>
     NTT::NTT(const std::array<NTTCoef, n>& input) {
-        // Pourquoi de pas avoir rempli directement l'attribut coefficients avec les coeffs de input ?
-        // A la limite passer par un IntArray
+        //Même remarque que pour le constructeur précédent
         std::array<uint16_t, n> f_hat = {};
         for (size_t i = 0; i < n; i++) {
             f_hat[i] = static_cast<uint16_t>(input[i]);
@@ -51,10 +56,7 @@
                 k++;
                 for (uint16_t j = start; j < start + len; j++) {
                     int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
-                    // Voir si les modulos sont nécessaires, déjà fait dans les surcharges d'opérateurs
-                    // Pourquoi des cast en int32_t alors qu'il faut utiliser les surcharges ????????????????
-                    // Pourquoi avoir cast les coef de l'input au lieux de les laisser en COEF ?????
-                    // On perd toute l'utilité de la classe NTTCoef et de ses surcharges
+                    //Même remarque que pour le constructeur précédent
                     f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
                     f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
                 }
