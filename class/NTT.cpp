@@ -48,7 +48,7 @@
             for (uint16_t start = 0; start < n; start += 2 * len) {
                 k++;
                 for (uint16_t j = start; j < start + len; j++) {
-                    int32_t t = static_cast<int32_t>(zetaList[k]) * static_cast<int32_t>(f_hat[j + len]);
+                    int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
                     f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
                     f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
                 }
