@@ -15,13 +15,15 @@ class XOF {
         // Attributes
         vector<uint8_t> inputData;
         int size;
-    public:
         vector<uint8_t> digest;
+    public:
         // Constructor
         XOF(vector<uint8_t>& rho, int i, int j);
         // Methods
+        vector<uint8_t> getDigest();
         void init();
         void next();
+        vector<uint8_t> getLastThree(int i);
         // Destructor
         ~XOF();
 };

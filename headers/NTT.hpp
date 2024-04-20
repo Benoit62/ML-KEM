@@ -22,7 +22,7 @@ class NTT{
         NTT(const std::array<NTTCoef, n>& input);
         NTTCoef get(std::size_t i) const;
         void set(std::size_t i, const NTTCoef& coef);
-        static NTT SampleNTT(const XOF B);
+        static NTT SampleNTT(XOF B);
         std::array<NTTCoef, n> getCoef();
         NTT& operator=(const NTT& other);
         NTT& operator*(const NTT& other);

@@ -15,6 +15,10 @@ XOF::XOF(vector<uint8_t>& rho, int i, int j) {
 }
 
 // Methods
+vector<uint8_t> XOF::getDigest() {
+    return this->digest;
+}
+
 void XOF::init() {
     CryptoPP::SHAKE128 shake(32);
     vector<uint8_t> digest(32);
@@ -35,6 +39,13 @@ void XOF::next() {
 
     this->size+=3;
     this->digest=digest;
+}
+
+vector<uint8_t> XOF::getLastThree(int i) {
+    if(i+2>digest.size()) {
+        this->next();
+    }
+    return {this->digest[i], this->digest[i+1], this->digest[i+2]};
 }
 
 XOF::~XOF() {}

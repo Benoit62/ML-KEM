@@ -69,15 +69,15 @@
         coefficients[i] = coef;
     }
 
-    NTT NTT::SampleNTT(const XOF B) {
+    NTT NTT::SampleNTT(XOF B) {
         NTT a;
         uint32_t i = 0;
         uint32_t j = 0;
         uint32_t d1, d2;
 
          while (j < 256) {
-             d1 = B.digest[i] + 256 * (B.digest[i + 1] % 16);
-             d2 = static_cast<int>(floor(B.digest[i + 1] / 16.0)) + 16 * B.digest[i + 2];
+             d1 = B.getLastThree(i)[0] + 256 * (B.getLastThree(i)[1] % 16);
+             d2 = static_cast<int>(floor(B.getLastThree(i)[1] / 16.0)) + 16 * B.getLastThree(i)[2];
 
              if (d1 < q) {
                  a.set(j, d1);

@@ -155,11 +155,12 @@ void testXOF() {
     cout << "----- XOF -----" << endl;
     vector<uint8_t> rho = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
     XOF xof(rho,2,2); xof.init();
-    for(int i=0;i<xof.digest.size();i++) cout << static_cast<uint16_t>(xof.digest[i]) << " ";
+    for(int i=0;i<xof.getDigest().size();i++) cout << static_cast<uint16_t>(xof.getDigest()[i]) << " ";
     cout << endl<< "On rallonge de 3 bytes avec la méthode next()" << endl; xof.next();
-    for(int i=0;i<xof.digest.size();i++) cout << static_cast<uint16_t>(xof.digest[i]) << " ";
-    cout << endl << "On rallonge encore de 3 bytes" << endl; xof.next();
-    for(int i=0;i<xof.digest.size();i++) cout << static_cast<uint16_t>(xof.digest[i]) << " ";
+    for(int i=0;i<xof.getDigest().size();i++) cout << static_cast<uint16_t>(xof.getDigest()[i]) << " ";
+    cout << endl << "On rallonge encore de 3 bytes et on affiche que ces 3 derniers" << endl; xof.next();
+    vector<uint8_t> nextBytes = xof.getLastThree(35);
+    for(int i=0;i<3;i++) cout << static_cast<uint16_t>(nextBytes[i]) << " ";
     cout << endl << endl;
 }
 
