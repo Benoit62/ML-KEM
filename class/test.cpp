@@ -100,8 +100,8 @@ void testBitByteArray(){
     IntArray F({15, 3});
     cout << "IntArray : " << F << endl << endl;
 
-    cout << "----- Byte encode on " << d <<" bits (from IntArray) -----" << endl;
     uint32_t d = 12;
+    cout << "----- Byte encode on " << d <<" bits (from IntArray) -----" << endl;
     ByteArray byteArray3 = ByteArray::byteEncode(F, d);
     // Expected byte array : 0b00001111 0b00000011
     //cout << "Taille du tableau de bytes : " << byteArray3.getSize() << endl;
@@ -119,7 +119,7 @@ void testBitByteArray(){
     cout << "Expected int array : 15 3" << endl;
     cout << "IntArray : " << decodeArray << endl << endl;
 
-    cout << "----- New ByteArray -----"
+    cout << "----- New ByteArray -----";
     ByteArray singleBlock(9);
     singleBlock.set({0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b10101010, 0b01010101, 0b11111111, 0b00000000, 0b00001111});
     //cout << "Taille du tableau de bytes : " << singleBlock.getSize() << endl;
