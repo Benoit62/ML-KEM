@@ -21,6 +21,7 @@
                     NTTCoef t = f[j];
                     NTTCoef tmp1 = (f[j] + f[j + len]) % q;
                     f[j] = (tmp1 + q) % q;
+                    // zetaList[k] est un uint16_t, f[j + len] est un NTTCoef, or il n'y a pas de surcharge pour cette opération à priori !!!!
                     NTTCoef tmp2 = (zetaList[k] * (f[j + len] - t)) % q;
                     f[j + len] = (tmp2 + q) % q;
                 }

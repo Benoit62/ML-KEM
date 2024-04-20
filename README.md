@@ -29,10 +29,10 @@ Before you begin, make sure you have the following installed on your system:
 ### Installing project and library
 
 The cryptopp library must be installed manually.
-Example with g++ : ```g++-11 Bit.cpp BitArray.cpp Byte.cpp ByteArray.cpp Crypto.cpp NTT.cpp Zeta.cpp IntArray.cpp test.cpp XOF.cpp -o main -lcryptopp```
 
 #### Compiling and Running the project
 
+Execute this command in the main.cpp folder : ```g++-11 Bit.cpp BitArray.cpp Byte.cpp ByteArray.cpp Crypto.cpp NTT.cpp NTTCoef.cpp NTTmatrice.cpp Poly.cpp PolyCoef.cpp PolyMatrice.cpp Zeta.cpp IntArray.cpp test.cpp XOF.cpp -o main -lcryptopp```
 
 ## Documentation
 
