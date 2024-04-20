@@ -32,7 +32,10 @@ The cryptopp library must be installed manually.
 
 #### Compiling and Running the project
 
-Execute this command in the main.cpp folder : ```g++-11 Bit.cpp BitArray.cpp Byte.cpp ByteArray.cpp Crypto.cpp NTT.cpp NTTCoef.cpp NTTmatrice.cpp Poly.cpp PolyCoef.cpp PolyMatrice.cpp Zeta.cpp IntArray.cpp test.cpp XOF.cpp -o main -lcryptopp```
+Execute this command in the main.cpp folder : 
+```Bash
+g++-11 Bit.cpp BitArray.cpp Byte.cpp ByteArray.cpp Crypto.cpp NTT.cpp NTTCoef.cpp NTTmatrice.cpp Poly.cpp PolyCoef.cpp PolyMatrice.cpp Zeta.cpp IntArray.cpp test.cpp XOF.cpp -o main -lcryptopp
+```
 
 ## Documentation
 
