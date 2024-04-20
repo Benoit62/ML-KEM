@@ -18,20 +18,20 @@
     NTT::NTT(const Poly& f) {
         std::array<uint16_t, n> f_hat = f;
 
-         uint16_t k = 1;
+        uint16_t k = 1;
 
-         for (uint16_t len = 128; len >= 2; len /= 2) {
-             for (uint16_t start = 0; start < N; start += 2 * len) {
+        for (uint16_t len = 128; len >= 2; len /= 2) {
+            for (uint16_t start = 0; start < N; start += 2 * len) {
 
-                 k++;
+                k++;
 
-                 for (uint16_t j = start; j < start + len; j++) {
-                     int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
-                     f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
-                     f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
-                 }
-             }
-         }
+                for (uint16_t j = start; j < start + len; j++) {
+                    int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
+                    f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
+                    f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
+                }
+            }
+        }
 
         coefficients = f_hat;
     }
