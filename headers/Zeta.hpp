@@ -10,6 +10,8 @@ using namespace std;
 
 typedef long long ll;
 
+// Pourquoi pas dans la classe Zeta ?
+// Sinon préciser que c'est une variable globale
 vector<uint16_t> zetaList(n / 2);
 vector<uint16_t> gammaList(n / 2);
 

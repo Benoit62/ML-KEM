@@ -38,6 +38,8 @@
 
     template <std::size_t n>
     NTT::NTT(const std::array<NTTCoef, n>& input) {
+        // Pourquoi de pas avoir rempli directement l'attribut coefficients avec les coeffs de input ?
+        // A la limite passer par un IntArray
         std::array<uint16_t, n> f_hat = {};
         for (size_t i = 0; i < n; i++) {
             f_hat[i] = static_cast<uint16_t>(input[i]);
@@ -80,6 +82,7 @@
         uint32_t d1, d2;
 
          while (j < 256) {
+            // Que fait exactement getLastThree ?
              d1 = B.getLastThree(i)[0] + 256 * (B.getLastThree(i)[1] % 16);
              d2 = static_cast<int>(floor(B.getLastThree(i)[1] / 16.0)) + 16 * B.getLastThree(i)[2];
 

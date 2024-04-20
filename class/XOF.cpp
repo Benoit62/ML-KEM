@@ -41,7 +41,9 @@ void XOF::next() {
     this->digest=digest;
 }
 
+// Simplifier les rapport entre getLastThree() et next()
 vector<uint8_t> XOF::getLastThree(int i) {
+    // Manque de lisibilité, on ne sait pas forcément à quoi correspond i, et quand getLastThree()  est appelé, on ne sait pas forcément qu'il peut rallonger le digest
     if(i+2>digest.size()) {
         this->next();
     }

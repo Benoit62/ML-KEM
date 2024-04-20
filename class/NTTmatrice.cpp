@@ -64,6 +64,7 @@ NTTmatrice NTTmatrice::operator+(NTTmatrice &m)
 }
 
 // surchage de la multiplication de 2 matrices
+// A tester
 NTTmatrice NTTmatrice::operator*(NTTmatrice &m)
 {
     if (matrice[0].size() != m.sizeRow())
