@@ -49,6 +49,10 @@
                 k++;
                 for (uint16_t j = start; j < start + len; j++) {
                     int32_t t = static_cast<int32_t>(Zeta.getZeta(k)) * static_cast<int32_t>(f_hat[j + len]);
+                    // Voir si les modulos sont nécessaires, déjà fait dans les surcharges d'opérateurs
+                    // Pourquoi des cast en int32_t alors qu'il faut utiliser les surcharges ????????????????
+                    // Pourquoi avoir cast les coef de l'input au lieux de les laisser en COEF ?????
+                    // On perd toute l'utilité de la classe NTTCoef et de ses surcharges
                     f_hat[j + len] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) - t % q + q) % q);
                     f_hat[j] = static_cast<uint16_t>((static_cast<int32_t>(f_hat[j]) + t % q) % q);
                 }
