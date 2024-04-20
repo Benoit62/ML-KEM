@@ -140,6 +140,7 @@
         std::cout << "Test NTT réussi !" << std::endl;
     }
 
+    // A passer en privé si on passe par la surcharge de l'opérateur *, ou faire un choix entre les deux 
     NTT NTT::MultiplyNTTs(const NTT& f, const NTT& g)
     {
         NTT h;
